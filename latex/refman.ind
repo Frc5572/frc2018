@@ -1,0 +1,97 @@
+\begin{theindex}
+
+  \item {Curve}, \hyperpage{9}
+    \subitem {heading}, \hyperpage{9}
+    \subitem {x}, \hyperpage{9}
+    \subitem {y}, \hyperpage{9}
+  \item {curveamount}
+    \subitem {drivetrain.\+h}, \hyperpage{12}
+
+  \indexspace
+
+  \item {Double\+Pair}, \hyperpage{10}
+    \subitem {u}, \hyperpage{10}
+    \subitem {v}, \hyperpage{10}
+  \item {drivetrain.\+h}
+    \subitem {curveamount}, \hyperpage{12}
+    \subitem {H\+A\+L\+F\+\_\+\+PI}, \hyperpage{12}
+    \subitem {operator+}, \hyperpage{13}
+
+  \indexspace
+
+  \item {field}, \hyperpage{7}
+  \item {field\+::side}, \hyperpage{7}
+    \subitem {left}, \hyperpage{7}
+    \subitem {right}, \hyperpage{7}
+    \subitem {scale}, \hyperpage{7}
+    \subitem {setup}, \hyperpage{7}
+    \subitem {switch\+\_\+far}, \hyperpage{7}
+    \subitem {switch\+\_\+near}, \hyperpage{7}
+
+  \indexspace
+
+  \item {H\+A\+L\+F\+\_\+\+PI}
+    \subitem {drivetrain.\+h}, \hyperpage{12}
+  \item {heading}
+    \subitem {Curve}, \hyperpage{9}
+
+  \indexspace
+
+  \item {left}
+    \subitem {field\+::side}, \hyperpage{7}
+
+  \indexspace
+
+  \item {main}
+    \subitem {test.\+cpp}, \hyperpage{13}
+
+  \indexspace
+
+  \item {operator+}
+    \subitem {drivetrain.\+h}, \hyperpage{13}
+
+  \indexspace
+
+  \item {right}
+    \subitem {field\+::side}, \hyperpage{7}
+
+  \indexspace
+
+  \item {scale}
+    \subitem {field\+::side}, \hyperpage{7}
+  \item {setup}
+    \subitem {field\+::side}, \hyperpage{7}
+  \item {src/drivetrain.\+h}, \hyperpage{11}
+  \item {src/test.\+cpp}, \hyperpage{13}
+  \item {src/utils/matchdata.\+h}, \hyperpage{14}
+  \item {switch\+\_\+far}
+    \subitem {field\+::side}, \hyperpage{7}
+  \item {switch\+\_\+near}
+    \subitem {field\+::side}, \hyperpage{7}
+
+  \indexspace
+
+  \item {test.\+cpp}
+    \subitem {main}, \hyperpage{13}
+
+  \indexspace
+
+  \item {u}
+    \subitem {Double\+Pair}, \hyperpage{10}
+
+  \indexspace
+
+  \item {v}
+    \subitem {Double\+Pair}, \hyperpage{10}
+
+  \indexspace
+
+  \item {x}
+    \subitem {Curve}, \hyperpage{9}
+
+  \indexspace
+
+  \item {y}
+    \subitem {Curve}, \hyperpage{9}
+
+\end{theindex}
