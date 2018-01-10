@@ -14,6 +14,8 @@
 #define WRITE_END 1
 #define READ_END 0
 
+// Dynamically Load kmod: https://stackoverflow.com/questions/5947286/how-can-linux-kernel-modules-be-loaded-from-c-code
+
 void signal_register(int a, void (*v)(int)){
   signal(a, v);
 }
