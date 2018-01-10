@@ -1,10 +1,13 @@
 #include "utils/cpreprocessor.h"
-#include "drivetrain.h"
+
+#define ROOT_REQUIRED
+#define ROOT_PASS "socrates"
+
+#include "utils/kernel_interface.h"
 
 #include <iostream>
 
 int main(){
-  auto x = curveamount(5*HALF_PI, 2.5*HALF_PI, 5);
-  std::cout << x.x << "," << x.y << " (" << x.heading << ")" << std::endl;
+  system("whoami");
   return 0;
 }

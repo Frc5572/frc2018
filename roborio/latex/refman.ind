@@ -15,7 +15,7 @@
   \item {drivetrain.\+h}
     \subitem {curveamount}, \hyperpage{12}
     \subitem {H\+A\+L\+F\+\_\+\+PI}, \hyperpage{12}
-    \subitem {operator+}, \hyperpage{13}
+    \subitem {operator+}, \hyperpage{12}
 
   \indexspace
 
@@ -39,6 +39,12 @@
 
   \item {left}
     \subitem {field\+::side}, \hyperpage{7}
+  \item {linux.\+cpp}
+    \subitem {R\+E\+A\+D\+\_\+\+E\+ND}, \hyperpage{14}
+    \subitem {R\+O\+O\+T\+\_\+\+N\+A\+ME}, \hyperpage{14}
+    \subitem {root\+\_\+mode}, \hyperpage{14}
+    \subitem {signal\+\_\+register}, \hyperpage{14}
+    \subitem {W\+R\+I\+T\+E\+\_\+\+E\+ND}, \hyperpage{14}
 
   \indexspace
 
@@ -48,12 +54,22 @@
   \indexspace
 
   \item {operator+}
-    \subitem {drivetrain.\+h}, \hyperpage{13}
+    \subitem {drivetrain.\+h}, \hyperpage{12}
 
   \indexspace
 
+  \item {R\+E\+A\+D\+\_\+\+E\+ND}
+    \subitem {linux.\+cpp}, \hyperpage{14}
+  \item {R\+O\+O\+T\+\_\+\+N\+A\+ME}
+    \subitem {linux.\+cpp}, \hyperpage{14}
+  \item {R\+O\+O\+T\+\_\+\+P\+A\+SS}
+    \subitem {test.\+cpp}, \hyperpage{13}
+  \item {R\+O\+O\+T\+\_\+\+R\+E\+Q\+U\+I\+R\+ED}
+    \subitem {test.\+cpp}, \hyperpage{13}
   \item {right}
     \subitem {field\+::side}, \hyperpage{7}
+  \item {root\+\_\+mode}
+    \subitem {linux.\+cpp}, \hyperpage{14}
 
   \indexspace
 
@@ -61,9 +77,13 @@
     \subitem {field\+::side}, \hyperpage{7}
   \item {setup}
     \subitem {field\+::side}, \hyperpage{7}
+  \item {signal\+\_\+register}
+    \subitem {linux.\+cpp}, \hyperpage{14}
   \item {src/drivetrain.\+h}, \hyperpage{11}
   \item {src/test.\+cpp}, \hyperpage{13}
-  \item {src/utils/matchdata.\+h}, \hyperpage{14}
+  \item {src/utils/kernel\+\_\+interface.\+h}, \hyperpage{13}
+  \item {src/utils/linux.\+cpp}, \hyperpage{14}
+  \item {src/utils/matchdata.\+h}, \hyperpage{15}
   \item {switch\+\_\+far}
     \subitem {field\+::side}, \hyperpage{7}
   \item {switch\+\_\+near}
@@ -73,6 +93,8 @@
 
   \item {test.\+cpp}
     \subitem {main}, \hyperpage{13}
+    \subitem {R\+O\+O\+T\+\_\+\+P\+A\+SS}, \hyperpage{13}
+    \subitem {R\+O\+O\+T\+\_\+\+R\+E\+Q\+U\+I\+R\+ED}, \hyperpage{13}
 
   \indexspace
 
@@ -83,6 +105,11 @@
 
   \item {v}
     \subitem {Double\+Pair}, \hyperpage{10}
+
+  \indexspace
+
+  \item {W\+R\+I\+T\+E\+\_\+\+E\+ND}
+    \subitem {linux.\+cpp}, \hyperpage{14}
 
   \indexspace
 

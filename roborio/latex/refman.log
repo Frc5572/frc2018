@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.21)  9 JAN 2018 15:50
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.12.15)  9 JAN 2018 23:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1277,93 +1277,112 @@ LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
 (Font)              scaled to size 8.09995pt on input line 16.
 ) (./structDoublePair.tex [9]) [10]
 Chapter 6.
-(./drivetrain_8h.tex <drivetrain_8h__incl.pdf, id=324, 196.735pt x 156.585pt>
+(./drivetrain_8h.tex <drivetrain_8h__incl.pdf, id=391, 196.735pt x 156.585pt>
 File: drivetrain_8h__incl.pdf Graphic file (type pdf)
 
 <use drivetrain_8h__incl.pdf>
 Package pdftex.def Info: drivetrain_8h__incl.pdf used on input line 9.
 (pdftex.def)             Requested size: 196.0pt x 155.99922pt.
-
-<drivetrain_8h__dep__incl.pdf, id=325, 161.60374pt x 156.585pt>
-File: drivetrain_8h__dep__incl.pdf Graphic file (type pdf)
-
-<use drivetrain_8h__dep__incl.pdf>
-Package pdftex.def Info: drivetrain_8h__dep__incl.pdf used on input line 16.
-(pdftex.def)             Requested size: 161.0pt x 156.00879pt.
  [11
 
- <./drivetrain_8h__incl.pdf> <./drivetrain_8h__dep__incl.pdf
-
-pdfTeX warning: pdflatex (file ./drivetrain_8h__dep__incl.pdf): PDF inclusion: 
-multiple pdfs with page group included in a single page
->]
+ <./drivetrain_8h__incl.pdf>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 43.
+(hyperref)                removing `subscript' on input line 36.
 
 LaTeX Font Info:    Font shape `T1/phv/bc/it' in size <10> not available
-(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 55.
+(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 48.
 LaTeX Font Info:    Font shape `T1/phv/bc/sl' will be
-(Font)              scaled to size 8.99994pt on input line 55.
-<driving_image.png, id=354, 1043.8197pt x 798.1017pt>
+(Font)              scaled to size 8.99994pt on input line 48.
+<driving_image.png, id=421, 1043.8197pt x 798.1017pt>
 File: driving_image.png Graphic file (type png)
  <use driving_image.png>
-Package pdftex.def Info: driving_image.png used on input line 62.
+Package pdftex.def Info: driving_image.png used on input line 55.
 (pdftex.def)             Requested size: 455.23654pt x 348.07262pt.
-
-[12 <./driving_image.png>]) (./test_8cpp.tex
-<test_8cpp__incl.pdf, id=368, 327.2225pt x 212.795pt>
+)
+(./test_8cpp.tex <test_8cpp__incl.pdf, id=423, 327.2225pt x 212.795pt>
 File: test_8cpp__incl.pdf Graphic file (type pdf)
 
 <use test_8cpp__incl.pdf>
-Package pdftex.def Info: test_8cpp__incl.pdf used on input line 10.
+Package pdftex.def Info: test_8cpp__incl.pdf used on input line 11.
 (pdftex.def)             Requested size: 326.0pt x 211.99895pt.
-) (./matchdata_8h.tex
-<matchdata_8h__incl.pdf, id=370, 188.705pt x 156.585pt>
+ [12 <./driving_image.png>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 31.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 34.
+
+) (./kernel__interface_8h.tex) (./linux_8cpp.tex [13 <./test_8cpp__incl.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 34.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 37.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 40.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 51.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 63.
+
+) (./matchdata_8h.tex <matchdata_8h__incl.pdf, id=457, 188.705pt x 156.585pt>
 File: matchdata_8h__incl.pdf Graphic file (type pdf)
 
 <use matchdata_8h__incl.pdf>
 Package pdftex.def Info: matchdata_8h__incl.pdf used on input line 8.
 (pdftex.def)             Requested size: 188.0pt x 155.99922pt.
- [13 <./test_8cpp__incl.pdf>]) [14 <./matchdata_8h__incl.pdf>] (./refman.ind [1
-5
+ [14]) [15 <./matchdata_8h__incl.pdf>] [16
 
+]
+(./refman.ind [17
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 167.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 167.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 169.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 169.
  (./refman.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 167.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 167.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 169.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 169.
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: C6AD5A10907FA8C9D689F58D4231478B;7310.
+(rerunfilecheck)             Checksum: A9641257031531DCCE27CDED774E907E;10038.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 167.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 169.
  ) 
 Here is how much of TeX's memory you used:
- 14921 strings out of 493029
- 212365 string characters out of 6136233
- 305839 words of memory out of 5000000
- 18095 multiletter control sequences out of 15000+600000
+ 14967 strings out of 493029
+ 213478 string characters out of 6136233
+ 310616 words of memory out of 5000000
+ 18112 multiletter control sequences out of 15000+600000
  56767 words of font info for 63 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 53i,12n,92p,814b,518s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 53i,12n,92p,1498b,400s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
-rw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/
-uhvb8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8ac.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (19 pages, 282217 bytes).
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/hel
+vetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a
+c.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8ac.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on refman.pdf (21 pages, 298148 bytes).
 PDF statistics:
- 502 PDF objects out of 1000 (max. 8388607)
- 458 compressed objects within 5 object streams
- 97 named destinations out of 1000 (max. 500000)
- 354 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 613 PDF objects out of 1000 (max. 8388607)
+ 567 compressed objects within 6 object streams
+ 123 named destinations out of 1000 (max. 500000)
+ 445 words of extra memory for PDF output out of 10000 (max. 10000000)
 
