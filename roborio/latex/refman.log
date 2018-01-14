@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.12.15)  9 JAN 2018 23:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.12.15)  13 JAN 2018 17:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1184,7 +1184,7 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 1.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 6.29996pt on input line 9.
+(Font)              scaled to size 6.29996pt on input line 10.
  [3
 
 ])
@@ -1229,7 +1229,7 @@ Chapter 3.
 
 ]
 Chapter 4.
-(./namespacefield.tex
+(./namespacedrivetrain.tex
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <12> not available
 (Font)              Font shape `T1/phv/b/n' tried instead on input line 3.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
@@ -1237,152 +1237,109 @@ LaTeX Font Info:    Font shape `T1/phv/b/n' will be
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
 (Font)              scaled to size 10.79993pt on input line 3.
 LaTeX Font Info:    Try loading font information for TS1+phv on input line 6.
- (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd
 File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
 )
 LaTeX Font Info:    Font shape `TS1/phv/m/n' will be
 (Font)              scaled to size 8.99994pt on input line 6.
-) (./namespacefield_1_1side.tex
-LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 6.29996pt on input line 1.
-LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 8.99994pt on input line 30.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 30.
-
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
-File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
-)
-
-LaTeX Font Warning: Font shape `T1/pcr/bc/n' undefined
-(Font)              using `T1/pcr/m/n' instead on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 44.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 51.
-
-) [7] [8
-
-]
-Chapter 5.
-(./structCurve.tex
 LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 (Font)              scaled to size 8.09995pt on input line 16.
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
 (Font)              Font shape `T1/phv/m/sl' tried instead on input line 16.
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
 (Font)              scaled to size 8.09995pt on input line 16.
-) (./structDoublePair.tex [9]) [10]
-Chapter 6.
-(./drivetrain_8h.tex <drivetrain_8h__incl.pdf, id=391, 196.735pt x 156.585pt>
-File: drivetrain_8h__incl.pdf Graphic file (type pdf)
-
-<use drivetrain_8h__incl.pdf>
-Package pdftex.def Info: drivetrain_8h__incl.pdf used on input line 9.
-(pdftex.def)             Requested size: 196.0pt x 155.99922pt.
- [11
-
- <./drivetrain_8h__incl.pdf>]
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 36.
-
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 8.99994pt on input line 27.
+LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
+(Font)              scaled to size 6.29996pt on input line 27.
 LaTeX Font Info:    Font shape `T1/phv/bc/it' in size <10> not available
-(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 48.
+(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 27.
 LaTeX Font Info:    Font shape `T1/phv/bc/sl' will be
-(Font)              scaled to size 8.99994pt on input line 48.
-<driving_image.png, id=421, 1043.8197pt x 798.1017pt>
-File: driving_image.png Graphic file (type png)
- <use driving_image.png>
-Package pdftex.def Info: driving_image.png used on input line 55.
-(pdftex.def)             Requested size: 455.23654pt x 348.07262pt.
+(Font)              scaled to size 8.99994pt on input line 27.
 )
-(./test_8cpp.tex <test_8cpp__incl.pdf, id=423, 327.2225pt x 212.795pt>
-File: test_8cpp__incl.pdf Graphic file (type pdf)
+(./namespacemath.tex [7]
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 19.
 
-<use test_8cpp__incl.pdf>
-Package pdftex.def Info: test_8cpp__incl.pdf used on input line 11.
-(pdftex.def)             Requested size: 326.0pt x 211.99895pt.
- [12 <./driving_image.png>]
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
+File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
+)
 
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 31.
+LaTeX Font Warning: Font shape `T1/pcr/bc/n' undefined
+(Font)              using `T1/pcr/m/n' instead on input line 19.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 34.
-
-) (./kernel__interface_8h.tex) (./linux_8cpp.tex [13 <./test_8cpp__incl.pdf>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 34.
+(hyperref)                removing `subscript' on input line 19.
+
+) [8]
+Chapter 5.
+(./classdrivetrain_1_1differential__drive.tex
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 7.19995pt on input line 12.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 28.
+
+) (./classdrivetrain_1_1motion__profile.tex [9
+
+]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 30.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `subscript' on input line 37.
 
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 40.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 51.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 63.
-
-) (./matchdata_8h.tex <matchdata_8h__incl.pdf, id=457, 188.705pt x 156.585pt>
-File: matchdata_8h__incl.pdf Graphic file (type pdf)
-
-<use matchdata_8h__incl.pdf>
-Package pdftex.def Info: matchdata_8h__incl.pdf used on input line 8.
-(pdftex.def)             Requested size: 188.0pt x 155.99922pt.
- [14]) [15 <./matchdata_8h__incl.pdf>] [16
+[10]) (./structdrivetrain_1_1point.tex) [11] [12
 
 ]
-(./refman.ind [17
+Chapter 6.
+(./drivetrain_8h.tex) (./math_8h.tex) [13] [14
+
+] (./refman.ind [15
+
 
 
 ])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 169.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 169.
- (./refman.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 169.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 169.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 167.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 167.
+
+(./refman.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 167.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 167.
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: A9641257031531DCCE27CDED774E907E;10038.
+(rerunfilecheck)             Checksum: F4F442C61CAD792DFB8C016C8409FF20;8580.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 169.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 167.
  ) 
 Here is how much of TeX's memory you used:
- 14967 strings out of 493029
- 213478 string characters out of 6136233
- 310616 words of memory out of 5000000
- 18112 multiletter control sequences out of 15000+600000
- 56767 words of font info for 63 fonts, out of 8000000 for 9000
+ 14921 strings out of 493029
+ 212074 string characters out of 6136233
+ 307262 words of memory out of 5000000
+ 18099 multiletter control sequences out of 15000+600000
+ 66201 words of font info for 81 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 53i,12n,92p,1498b,400s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 53i,15n,92p,606b,563s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/hel
-vetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a
-c.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8ac.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
-Output written on refman.pdf (21 pages, 298148 bytes).
+f-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/u
+rw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/u
+hvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8ac.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8ac.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb>
+Output written on refman.pdf (19 pages, 109203 bytes).
 PDF statistics:
- 613 PDF objects out of 1000 (max. 8388607)
- 567 compressed objects within 6 object streams
- 123 named destinations out of 1000 (max. 500000)
- 445 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 444 PDF objects out of 1000 (max. 8388607)
+ 408 compressed objects within 5 object streams
+ 88 named destinations out of 1000 (max. 500000)
+ 305 words of extra memory for PDF output out of 10000 (max. 10000000)
 

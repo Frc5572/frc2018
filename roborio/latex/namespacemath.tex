@@ -1,0 +1,32 @@
+\hypertarget{namespacemath}{}\section{math Namespace Reference}
+\label{namespacemath}\index{math@{math}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+double \hyperlink{namespacemath_aad079efb675c687168b5a5fe567611f8}{wrapping\+\_\+limit} (double value, double min, double max)
+\begin{DoxyCompactList}\small\item\em Enforces a wrapping limit on value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\index{math@{math}!wrapping\+\_\+limit@{wrapping\+\_\+limit}}
+\index{wrapping\+\_\+limit@{wrapping\+\_\+limit}!math@{math}}
+\subsubsection[{\texorpdfstring{wrapping\+\_\+limit(double value, double min, double max)}{wrapping_limit(double value, double min, double max)}}]{\setlength{\rightskip}{0pt plus 5cm}double math\+::wrapping\+\_\+limit (
+\begin{DoxyParamCaption}
+\item[{double}]{value, }
+\item[{double}]{min, }
+\item[{double}]{max}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{namespacemath_aad079efb675c687168b5a5fe567611f8}{}\label{namespacemath_aad079efb675c687168b5a5fe567611f8}
+
+
+Enforces a wrapping limit on value. 
+
+Wrapping is a constraint in which a minimum is equal to a maximum, and values exceeding either limit \char`\"{}wraps\char`\"{} to the other extremum. An example is angles. The angles 0, and $2\pi$ are equal in angles, so you may enforce a wrapping limit when checking for a value such as $\pi$. 
+\begin{DoxyParams}{Parameters}
+{\em value} & value to limit \\
+\hline
+{\em min} & minimum value \\
+\hline
+{\em max} & maximum value \\
+\hline
+\end{DoxyParams}

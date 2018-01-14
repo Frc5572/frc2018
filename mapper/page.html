@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>5572 - Mapper</title>
+<style>
+* {
+  padding: 0px;
+  margin: 0px;
+}
+svg {
+  stroke-width: 0px;
+  background-color: #ddddff;
+}
+</style>
+</head>
+<body>
+<svg id="canvas" >
+
+</svg>
+<div id="toolbar" style="height:100px">
+
+</div>
+<script>
+function $(x){
+  return document.getElementById(x);
+}
+
+function onresize(){
+  $("canvas").setAttribute("width", window.innerWidth + "px");
+  $("canvas").setAttribute("height", (window.innerHeight - 100) + "px");
+  $("toolbar").style.width = window.innerWidth + "px";
+}
+
+onresize();
+
+window.addEventListener('resize', onresize);
+
+
+
+</script>
+</body>
+</html>

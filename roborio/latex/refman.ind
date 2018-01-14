@@ -1,124 +1,72 @@
 \begin{theindex}
 
-  \item {Curve}, \hyperpage{9}
-    \subitem {heading}, \hyperpage{9}
-    \subitem {x}, \hyperpage{9}
-    \subitem {y}, \hyperpage{9}
-  \item {curveamount}
-    \subitem {drivetrain.\+h}, \hyperpage{12}
+  \item {$\sim$differential\+\_\+drive}
+    \subitem {drivetrain\+::differential\+\_\+drive}, \hyperpage{9}
+  \item {$\sim$motion\+\_\+profile}
+    \subitem {drivetrain\+::motion\+\_\+profile}, \hyperpage{10}
 
   \indexspace
 
-  \item {Double\+Pair}, \hyperpage{10}
-    \subitem {u}, \hyperpage{10}
-    \subitem {v}, \hyperpage{10}
-  \item {drivetrain.\+h}
-    \subitem {curveamount}, \hyperpage{12}
-    \subitem {H\+A\+L\+F\+\_\+\+PI}, \hyperpage{12}
-    \subitem {operator+}, \hyperpage{12}
+  \item {diffprofile}
+    \subitem {drivetrain}, \hyperpage{7}
+  \item {drivetrain}, \hyperpage{7}
+    \subitem {diffprofile}, \hyperpage{7}
+  \item {drivetrain\+::differential\+\_\+drive}, \hyperpage{9}
+    \subitem {$\sim$differential\+\_\+drive}, \hyperpage{9}
+    \subitem {from\+Motors}, \hyperpage{9}
+  \item {drivetrain\+::motion\+\_\+profile}, \hyperpage{10}
+    \subitem {$\sim$motion\+\_\+profile}, \hyperpage{10}
+    \subitem {motion\+\_\+profile}, \hyperpage{10}
+    \subitem {operator()}, \hyperpage{10}
+    \subitem {profile}, \hyperpage{10}
+  \item {drivetrain\+::point}, \hyperpage{11}
+    \subitem {x}, \hyperpage{11}
+    \subitem {y}, \hyperpage{11}
 
   \indexspace
 
-  \item {field}, \hyperpage{7}
-  \item {field\+::side}, \hyperpage{7}
-    \subitem {left}, \hyperpage{7}
-    \subitem {right}, \hyperpage{7}
-    \subitem {scale}, \hyperpage{7}
-    \subitem {setup}, \hyperpage{7}
-    \subitem {switch\+\_\+far}, \hyperpage{7}
-    \subitem {switch\+\_\+near}, \hyperpage{7}
+  \item {from\+Motors}
+    \subitem {drivetrain\+::differential\+\_\+drive}, \hyperpage{9}
 
   \indexspace
 
-  \item {H\+A\+L\+F\+\_\+\+PI}
-    \subitem {drivetrain.\+h}, \hyperpage{12}
-  \item {heading}
-    \subitem {Curve}, \hyperpage{9}
+  \item {math}, \hyperpage{7}
+    \subitem {wrapping\+\_\+limit}, \hyperpage{8}
+  \item {math.\+h}
+    \subitem {PI}, \hyperpage{13}
+  \item {motion\+\_\+profile}
+    \subitem {drivetrain\+::motion\+\_\+profile}, \hyperpage{10}
 
   \indexspace
 
-  \item {left}
-    \subitem {field\+::side}, \hyperpage{7}
-  \item {linux.\+cpp}
-    \subitem {R\+E\+A\+D\+\_\+\+E\+ND}, \hyperpage{14}
-    \subitem {R\+O\+O\+T\+\_\+\+N\+A\+ME}, \hyperpage{14}
-    \subitem {root\+\_\+mode}, \hyperpage{14}
-    \subitem {signal\+\_\+register}, \hyperpage{14}
-    \subitem {W\+R\+I\+T\+E\+\_\+\+E\+ND}, \hyperpage{14}
+  \item {operator()}
+    \subitem {drivetrain\+::motion\+\_\+profile}, \hyperpage{10}
 
   \indexspace
 
-  \item {main}
-    \subitem {test.\+cpp}, \hyperpage{13}
+  \item {PI}
+    \subitem {math.\+h}, \hyperpage{13}
+  \item {profile}
+    \subitem {drivetrain\+::motion\+\_\+profile}, \hyperpage{10}
 
   \indexspace
 
-  \item {operator+}
-    \subitem {drivetrain.\+h}, \hyperpage{12}
+  \item {src/drivetrain/drivetrain.\+h}, \hyperpage{13}
+  \item {src/util/math.\+h}, \hyperpage{13}
 
   \indexspace
 
-  \item {R\+E\+A\+D\+\_\+\+E\+ND}
-    \subitem {linux.\+cpp}, \hyperpage{14}
-  \item {R\+O\+O\+T\+\_\+\+N\+A\+ME}
-    \subitem {linux.\+cpp}, \hyperpage{14}
-  \item {R\+O\+O\+T\+\_\+\+P\+A\+SS}
-    \subitem {test.\+cpp}, \hyperpage{13}
-  \item {R\+O\+O\+T\+\_\+\+R\+E\+Q\+U\+I\+R\+ED}
-    \subitem {test.\+cpp}, \hyperpage{13}
-  \item {right}
-    \subitem {field\+::side}, \hyperpage{7}
-  \item {root\+\_\+mode}
-    \subitem {linux.\+cpp}, \hyperpage{14}
-
-  \indexspace
-
-  \item {scale}
-    \subitem {field\+::side}, \hyperpage{7}
-  \item {setup}
-    \subitem {field\+::side}, \hyperpage{7}
-  \item {signal\+\_\+register}
-    \subitem {linux.\+cpp}, \hyperpage{14}
-  \item {src/drivetrain.\+h}, \hyperpage{11}
-  \item {src/test.\+cpp}, \hyperpage{13}
-  \item {src/utils/kernel\+\_\+interface.\+h}, \hyperpage{13}
-  \item {src/utils/linux.\+cpp}, \hyperpage{14}
-  \item {src/utils/matchdata.\+h}, \hyperpage{15}
-  \item {switch\+\_\+far}
-    \subitem {field\+::side}, \hyperpage{7}
-  \item {switch\+\_\+near}
-    \subitem {field\+::side}, \hyperpage{7}
-
-  \indexspace
-
-  \item {test.\+cpp}
-    \subitem {main}, \hyperpage{13}
-    \subitem {R\+O\+O\+T\+\_\+\+P\+A\+SS}, \hyperpage{13}
-    \subitem {R\+O\+O\+T\+\_\+\+R\+E\+Q\+U\+I\+R\+ED}, \hyperpage{13}
-
-  \indexspace
-
-  \item {u}
-    \subitem {Double\+Pair}, \hyperpage{10}
-
-  \indexspace
-
-  \item {v}
-    \subitem {Double\+Pair}, \hyperpage{10}
-
-  \indexspace
-
-  \item {W\+R\+I\+T\+E\+\_\+\+E\+ND}
-    \subitem {linux.\+cpp}, \hyperpage{14}
+  \item {wrapping\+\_\+limit}
+    \subitem {math}, \hyperpage{8}
 
   \indexspace
 
   \item {x}
-    \subitem {Curve}, \hyperpage{9}
+    \subitem {drivetrain\+::point}, \hyperpage{11}
 
   \indexspace
 
   \item {y}
-    \subitem {Curve}, \hyperpage{9}
+    \subitem {drivetrain\+::point}, \hyperpage{11}
 
 \end{theindex}
