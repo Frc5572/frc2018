@@ -7,8 +7,6 @@
 #include <nodejs/src/node.h>
 #include "drivetrain/drivetrain.h"
 
-#define CURRENT_YEAR "2017"
-
 namespace watson {
   
   using namespace v8;

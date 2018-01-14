@@ -4,32 +4,6 @@ var http = require('http'),
     path = require('path'),
     mapper = require('./mapper');
 
-function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
-  var angleInRadians = (angleInDegrees-90) * Math.PI / 180.0;
-
-  return {
-    x: centerX + (radius * Math.cos(angleInRadians)),
-    y: centerY + (radius * Math.sin(angleInRadians))
-  };
-}
-
-function describeArc(x, y, radius, startAngle, endAngle){
-
-    var start = polarToCartesian(x, y, radius, endAngle);
-    var end = polarToCartesian(x, y, radius, startAngle);
-
-    var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
-
-    var d = [
-        "M", start.x, start.y, 
-        "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y
-    ].join(" ");
-
-    return d;       
-}
-
-console.log(describeArc(1, 1, 1, 20, 30));
-
 http.createServer(function (req, res) {
   if(req.url == "/traverse"){ // Get robot path data
     
@@ -37,7 +11,7 @@ http.createServer(function (req, res) {
   }
   fs.readFile('page.html', function(err, data) {
     res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write(data);
+    res.write(data.toString().replace("<!--MAP-->", "<rect x='20' y='20' width='360' height='323.38' style='stroke:rgb(0,0,0);stroke-width:5;fill:rgb(0,128,0);fill-opacity:0.3;'></rect><line x1='20' y1='49.69' x2='55' y2='20' style='stroke:rgb(0,0,0);stroke-width:5;'></line><line x1='20' y1='313.69' x2='55' y2='343.38' style='stroke:rgb(0,0,0);stroke-width:5;'></line>"));
     res.end();
   });
 }).listen(8080);

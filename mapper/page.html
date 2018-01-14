@@ -11,31 +11,326 @@ svg {
   background-color: #ddddff;
 }
 </style>
+<script src="http://ariutta.github.io/svg-pan-zoom/dist/svg-pan-zoom.min.js"></script>
 </head>
 <body>
-<svg id="canvas" >
-
+<svg id="canvas" transform="translate(0, 0) scale(1)">
+<g id="everything">
+<g id="map">
+<!--MAP-->
+</g>
+<g id="points"></g>
+</g>
 </svg>
 <div id="toolbar" style="height:100px">
-
+<input id="debug" type="checkbox"></input> Debug<br>
+Left Distance: <span id="leftdist"></span><br>
+Right Distance: <span id="rightdist"></span><br>
+End Heading: <span id="finalhead"></span><br>
+Axle Width: <input id="w" type="number" value="25"></input>
+Start Heading: <input id="starth" type="number" value="0"></input>
 </div>
 <script>
 function $(x){
   return document.getElementById(x);
 }
 
+var path = [];
+var dragging = false;
+var selected = -1;
+
+function dist(a, b){
+  return Math.sqrt(
+    Math.pow(a.x - b.x, 2) +
+    Math.pow(a.y - b.y, 2))
+}
+
+function closest_path(x, y){
+  if(path.length == 0) return false;
+  var vdist = dist({x: x, y: y}, path[0]);
+  var index = 0;
+  for(let i = 1; i < path.length; i++){
+    let kdist = dist({x: x, y: y}, path[i]);
+    if(kdist < vdist){
+      vdist = kdist;
+      index = i;
+    }
+  }
+  return index;
+}
+
+function wrapping_limit(v, min, max){
+  while(v > max) v -= (max - min);
+  while(v < min) v += (max - min);
+  return v;
+}
+
+function curve_geometry(x, y, w){
+  if(y == 0){
+    if(x == 0) return {l1: 0, l2: 0, theta: 0, r : 0, arc: false};
+    let theta = x > 0 ? -Math.PI : Math.PI;
+    let r = x > 0 ? x / 2.0 : -x / 2.0;
+    let r1 = r - w / 2.0;
+    let r2 = r + w / 2.0;
+    let l1 = r1 * theta;
+    let l2 = r2 * theta;
+    if(x > 0) return {l2: l1, l1: l2, theta: theta, r: r, arc: true, flipped: true}; // swap l1 and l2
+    return {l1: l1, l2: l2, theta: theta, r: r, arc: true, flipped: false};
+  }
+  if(x == 0){
+    return {l1: y, l2: y, theta: 0, r: 0, arc: false, flipped: false};
+  }
+  let theta = - 2.0 * Math.atan2(x, y);
+  let r = Math.abs(Math.sin((Math.PI - theta) / 2.0) * Math.sqrt(x*x + y*y) / Math.sin(theta));
+  theta = wrapping_limit(theta, 0, 2.0 * Math.PI);
+  let r1 = r - w / 2.0;
+  let r2 = r + w / 2.0;
+  let l1 = r1 * theta;
+  let l2 = r2 * theta;
+  if(x > 0) return {l2: l1, l1: l2, theta: theta - 2.0 * Math.PI, r: r, arc: true, flipped: true}; // swap l1 and l2
+  return {l1: l1, l2: l2, theta: theta, r: r, arc: true, flipped: false};
+}
+
+function line(x1, y1, x2, y2, c){
+  var l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  l.style="stroke:" + c + ";stroke-width:1";
+  l.setAttribute("x1", x1);
+  l.setAttribute("y1", y1);
+  l.setAttribute("x2", x2);
+  l.setAttribute("y2", y2);
+  $("points").appendChild(l);
+}
+
+function point(cx, cy, color){
+  var vpoint = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  vpoint.setAttribute("cx", "" + cx);
+  vpoint.setAttribute("cy", "" + cy);
+  vpoint.setAttribute("r", "2");
+  vpoint.setAttribute("fill", color);
+  $("points").appendChild(vpoint);
+}
+
+function arc(points, color){
+  var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.style="stroke:" + color + ";stroke-width:2;fill:none";
+  path.setAttribute("d", describeArc(points));
+  $("points").appendChild(path);
+}
+
+function isLeft(a, b, c){
+     return ((b.y - a.y)*(c.x - a.x) - (b.x - a.x)*(c.y - a.y)) > 0;
+}
+
+function mod(a, n){
+  return (a % n + n) % n;
+}
+
+function curve_segment(x, y, heading, w){
+  var ex = x * Math.cos(-heading) - y * Math.sin(-heading);
+  var ey = x * Math.sin(-heading) + y * Math.cos(-heading);
+  
+  var curve = curve_geometry(ex, ey, w);
+  
+  var rx = (curve.flipped ? 1 : -1) * curve.r * Math.cos(heading);
+  var ry = (curve.flipped ? 1 : -1) * curve.r * Math.sin(heading);
+  
+  var nhead = heading + curve.theta;
+  
+  return {x: rx, y: ry, new_heading: nhead, radius: curve.r, halfangle: (curve.flipped ? Math.PI : 0) + (nhead + heading) / 2.0, l1: curve.l1, l2: curve.l2, flipped: curve.flipped, arc: curve.arc};
+}
+
+function refresh(){
+  $("points").innerHTML = "";
+  if(path.length == 0) return;
+  var w = $("w").value;
+  var left_color = "rgba()";
+  var right_color = "";
+  var lefttotal = 0, righttotal = 0;
+  for(let i = 0; i < path.length; i++){
+    point(path[i].x, path[i].y, i == selected ? "rgb(255, 0, 0)" : "rgb(0, 0, 0)");
+  }
+  var current_heading = ($("starth").value * Math.PI) / 180.0;
+  line(path[0].x + w / 2.0 * Math.cos(current_heading), path[0].y + w / 2.0 * Math.sin(current_heading), path[0].x - w / 2.0 * Math.cos(current_heading), path[0].y - w / 2.0 * Math.sin(current_heading), "rgb(128, 0, 255)");
+  if($('debug').checked)
+  line(path[0].x + w / 2.0 * Math.cos(current_heading + Math.PI / 2), path[0].y + w / 2.0 * Math.sin(current_heading + Math.PI / 2), path[0].x, path[0].y, "rgb(128, 0, 255)");
+  var flip = false;
+  for(var i = 1; i < path.length; i++){
+    if($("debug").checked){
+      line(path[i - 1].x, path[i - 1].y, path[i].x, path[i].y, "rgba(0,0,0,0.4)");
+    }
+    // Calculate x and y in relation to current position and orientation
+    var nx = path[i].x - path[i - 1].x;
+    var ny = path[i].y - path[i - 1].y; // Y is inverted
+    var curve = curve_segment(nx, ny, current_heading, w);
+    lefttotal += curve.l1;
+    righttotal += curve.l2;
+    if(!curve.arc){ // Straight line
+      line(path[i - 1].x + w / 2.0 * Math.cos(current_heading), path[i - 1].y + w / 2.0 * Math.sin(current_heading), path[i].x + w / 2.0 * Math.cos(current_heading), path[i].y + w / 2.0 * Math.sin(current_heading), "rgb(0, 0, 0)");
+      continue;
+    }
+    if($("debug").checked){
+      point(path[i - 1].x + curve.x, path[i - 1].y + curve.y, curve.flipped ? "rgb(0,0,0)" : "rgb(255,0,0)");
+      line(path[i - 1].x, path[i - 1].y, path[i - 1].x + curve.x, path[i - 1].y + curve.y, "rgb(255,0,0)");
+      line(path[i].x, path[i].y, path[i - 1].x + curve.x, path[i - 1].y + curve.y, "rgb(255,0,0)");
+      line(path[i - 1].x + curve.x, path[i - 1].y + curve.y,
+      path[i - 1].x + curve.x + curve.radius * Math.cos(curve.halfangle), path[i - 1].y + curve.y + curve.radius * Math.sin(curve.halfangle), "rgb(0,0,255)");
+    }
+    if($("debug").checked){
+      line(path[i].x + w / 2.0 * Math.cos(curve.new_heading), path[i].y + w / 2.0 * Math.sin(curve.new_heading), path[i].x - w / 2.0 * Math.cos(curve.new_heading), path[i].y - w / 2.0 * Math.sin(curve.new_heading), "rgb(128, 0, 255)");
+      line(path[i].x + w / 2.0 * Math.cos(curve.new_heading + Math.PI / 2), path[i].y + w / 2.0 * Math.sin(curve.new_heading + Math.PI / 2), path[i].x, path[i].y, "rgb(128, 0, 255)");
+    }
+    if(curve.flipped){
+      var midx = path[i - 1].x + curve.x + (curve.radius + w/2) * Math.cos(curve.halfangle);
+      var midy = path[i - 1].y + curve.y + (curve.radius + w/2) * Math.sin(curve.halfangle);
+    } else {
+      var midx = path[i - 1].x + curve.x + (curve.radius - w/2) * Math.cos(curve.halfangle);
+      var midy = path[i - 1].y + curve.y + (curve.radius - w/2) * Math.sin(curve.halfangle);
+    }
+    arc([{x: path[i-1].x - (w/2) * Math.cos(current_heading), y: path[i-1].y - (w/2) * Math.sin(current_heading)},{x: midx, y: midy},{x: path[i].x - (w/2) * Math.cos(curve.new_heading), y: path[i].y - (w/2) * Math.sin(curve.new_heading)}], "rgb(0,0,0)");
+    if(curve.flipped){
+      var midx = path[i - 1].x + curve.x + (curve.radius - w/2) * Math.cos(curve.halfangle);
+      var midy = path[i - 1].y + curve.y + (curve.radius - w/2) * Math.sin(curve.halfangle);
+    } else {
+      var midx = path[i - 1].x + curve.x + (curve.radius + w/2) * Math.cos(curve.halfangle);
+      var midy = path[i - 1].y + curve.y + (curve.radius + w/2) * Math.sin(curve.halfangle);
+    }
+    arc([{x: path[i-1].x + (w/2) * Math.cos(current_heading), y: path[i-1].y + (w/2) * Math.sin(current_heading)},{x: midx, y: midy},{x: path[i].x + (w/2) * Math.cos(curve.new_heading), y: path[i].y + (w/2) * Math.sin(curve.new_heading)}], "rgb(0,0,0)");
+    current_heading = curve.new_heading;
+  }
+  line(path[i-1].x + w / 2.0 * Math.cos(current_heading), path[i-1].y + w / 2.0 * Math.sin(current_heading), path[i-1].x - w / 2.0 * Math.cos(current_heading), path[i-1].y - w / 2.0 * Math.sin(current_heading), "rgb(128, 0, 255)");
+  $("leftdist").innerHTML = lefttotal;
+  $("rightdist").innerHTML = righttotal;
+  $("finalhead").innerHTML = wrapping_limit(180.0 * current_heading / Math.PI + 90, 0, 360) + "&deg;";
+}
+
+function addToPath(x, y){
+  path.push({x:x, y:y});
+  refresh();
+}
+
 function onresize(){
   $("canvas").setAttribute("width", window.innerWidth + "px");
   $("canvas").setAttribute("height", (window.innerHeight - 100) + "px");
+  $("points").setAttribute("transform", "matrix(1 0 0 -1 0 " + (window.innerHeight - 100) + ")");
   $("toolbar").style.width = window.innerWidth + "px";
+  var vertiline = $("mouseover_v");
+  var horizline = $("mouseover_h");
+  if (typeof(vertiline) != 'undefined' && vertiline != null){
+    vertiline.setAttribute("y1", "0");
+    vertiline.setAttribute("y2", "" + (window.innerHeight - 100));
+  }
+  if (typeof(horizline) != 'undefined' && horizline != null){
+    horizline.setAttribute("x1", "0");
+    horizline.setAttribute("x2", "" + window.innerWidth);
+  }
+  
 }
 
 onresize();
 
 window.addEventListener('resize', onresize);
 
+$("debug").addEventListener('click', refresh);
+$("w").addEventListener('change', refresh);
+$("starth").addEventListener('change', refresh);
 
+$("canvas").addEventListener('mousemove', function(e){
+  var vertiline = $("mouseover_v");
+  var horizline = $("mouseover_h");
+  var dirty = false;
+  if (typeof(vertiline) == 'undefined' || vertiline == null){
+    vertiline = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    vertiline.id = 'mouseover_v';
+    vertiline.style="stroke:rgba(0,0,0,0.2);stroke-width:1";
+    $("canvas").appendChild(vertiline);
+    dirty = true;
+  }
+  if (typeof(horizline) == 'undefined' || horizline == null){
+    horizline = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    horizline.id = 'mouseover_h';
+    horizline.style="stroke:rgba(0,0,0,0.2);stroke-width:1";
+    $("canvas").appendChild(horizline);
+    dirty = true;
+  }
+  vertiline.setAttribute("x1", e.clientX);
+  vertiline.setAttribute("x2", e.clientX);
+  horizline.setAttribute("y1", e.clientY);
+  horizline.setAttribute("y2", e.clientY);
+  if(dirty) onresize();
+  // Dragging
+  if(dragging && selected != -1){
+    path[selected].x = e.clientX;
+    path[selected].y = (window.innerHeight - 100) - e.clientY;
+    refresh();
+  }
+});
 
+$("canvas").addEventListener('click', function(e){
+  if(e.which == 1 && e.ctrlKey)
+  addToPath(e.clientX, (window.innerHeight - 100) - e.clientY);
+  else if(e.which == 3){
+    // Menu
+  }
+});
+
+$("canvas").addEventListener('contextmenu', function(ev) {
+    ev.preventDefault();
+    return false;
+}, false);
+
+$("canvas").addEventListener('mousedown', function(e){
+  if(e.which == 1){
+    if(e.ctrlKey) return;
+    var closest = closest_path(e.clientX, (window.innerHeight - 100) - e.clientY);
+    if(closest !== false){
+      selected = closest;
+      refresh();
+      dragging = true;
+    }
+  }
+});
+
+document.addEventListener('keypress', function(e){
+  if(e.code == 'Delete'){
+    if(selected != -1){
+      path.splice(selected, 1);
+      if(selected == path.length)
+	selected = -1;
+      refresh();
+    }
+  }
+});
+
+$("canvas").addEventListener('mouseup', function(e){
+  dragging = false;
+});
+
+function describeArc(points){
+  var a = points[0]
+  var b = points[2]
+  var c = points[1]
+
+  var A = dist(b, c)
+  var B = dist(c, a)
+  var C = dist(a, b)
+
+  var angle = Math.acos((A*A + B*B - C*C)/(2*A*B))
+
+  //calc radius of circle
+  var K = .5*A*B*Math.sin(angle)
+  var r = A*B*C/4/K
+  r = Math.round(r*1000)/1000
+
+  //large arc flag
+  var laf = +(Math.PI/2 > angle)
+
+  //sweep flag
+  var saf = +((b.x - a.x)*(c.y - a.y) - (b.y - a.y)*(c.x - a.x) < 0) 
+
+  var d = ['M', a.x, a.y, 'A', r, r, 0, laf, saf, b.x, b.y].join(' ');
+  
+  return d;
+}
 </script>
 </body>
 </html>
