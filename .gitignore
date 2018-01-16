@@ -34,3 +34,7 @@ out
 
 #kdevelop
 *.kdev*
+
+#passwords
+*secret.json
+secret.json
