@@ -53,6 +53,15 @@ function tba(ev){
 function event(ev){
   drive.setEvent(ev, function(existed){
     tba(ev);
+    drive.lastMatch(function(d){
+      if(typeof d.values != 'undefined')
+      for(let i = 1; i < d.values.length; i++){
+	var matchi = parseInt(d.values[i][0]);
+	if(current_tba.current_match <= matchi){
+	  current_tba.current_match = matchi;
+	}
+      }
+    });
   });
 }
 
@@ -64,7 +73,7 @@ drive(function(){
       for(let i = 1; i < d.values.length; i++){
 	var matchi = parseInt(d.values[i][0]);
 	if(current_tba.current_match <= matchi){
-	  current_tba.current_match = matchi + 1;
+	  current_tba.current_match = matchi;
 	}
       }
     });
