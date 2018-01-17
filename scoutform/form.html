@@ -1,0 +1,23 @@
+<html>
+<head>
+
+</head>
+<body>
+<!--MSG-->
+<form action="/submit" method="post" onsubmit="presubmit()">
+<input id="date" type="hidden" name="Time" value=""><br>
+<input type="number" name="Match Number" value="$matchno"><br>
+<input type="text" name="Team Number" value="$team"><br>
+<input type="submit" value="Submit">
+</form>
+<script>
+function $(d){
+  return document.getElementById(d);
+}
+function presubmit(){
+  var newDate = new Date();
+  $('date').value = newDate.toUTCString();
+}
+</script>
+</body>
+</html>

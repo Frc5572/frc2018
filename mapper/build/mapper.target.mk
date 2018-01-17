@@ -35,10 +35,10 @@ CFLAGS_CC_Debug := \
 	-std=gnu++0x
 
 INCS_Debug := \
-	-I/home/watson/.node-gyp/4.2.6/include/node \
-	-I/home/watson/.node-gyp/4.2.6/src \
-	-I/home/watson/.node-gyp/4.2.6/deps/uv/include \
-	-I/home/watson/.node-gyp/4.2.6/deps/v8/include \
+	-I/home/watson/.node-gyp/4.7.2/include/node \
+	-I/home/watson/.node-gyp/4.7.2/src \
+	-I/home/watson/.node-gyp/4.7.2/deps/uv/include \
+	-I/home/watson/.node-gyp/4.7.2/deps/v8/include \
 	-I$(srcdir)/-I/usr/local/include
 
 DEFS_Release := \
@@ -74,10 +74,10 @@ CFLAGS_CC_Release := \
 	-std=gnu++0x
 
 INCS_Release := \
-	-I/home/watson/.node-gyp/4.2.6/include/node \
-	-I/home/watson/.node-gyp/4.2.6/src \
-	-I/home/watson/.node-gyp/4.2.6/deps/uv/include \
-	-I/home/watson/.node-gyp/4.2.6/deps/v8/include \
+	-I/home/watson/.node-gyp/4.7.2/include/node \
+	-I/home/watson/.node-gyp/4.7.2/src \
+	-I/home/watson/.node-gyp/4.7.2/deps/uv/include \
+	-I/home/watson/.node-gyp/4.7.2/deps/v8/include \
 	-I$(srcdir)/-I/usr/local/include
 
 OBJS := \

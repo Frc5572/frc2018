@@ -14,6 +14,7 @@ const meta_file_name = 'Meta';
 const folder_name = 'Scouting-Files';
 
 var current_event = "";
+var eventname = "";
 
 var gauth = require('./gsheet');
 var readline = require('readline');
@@ -477,6 +478,40 @@ module.exports.hasEvent = function(){
   return current_event != "";
 }
 
+module.exports.getEventName = function(){
+    return eventname;
+}
+
+module.exports.lastMatch = function(rcb){
+  dostuff(true, [function(){
+    dostuff(true, [make_Get(current_event,'Data!B1:B',function(data){
+      rcb(data);
+    })]);
+  }]);
+}
+
+module.exports.submit = function(data, rcb){
+  dostuff(true, [function(){
+    var values = [[]];
+    for (var key in data) {
+      if (data.hasOwnProperty(key)) {
+	values[0].push(key);
+      }
+    }
+    dostuff(true, [make_Update(current_event, 'Data!A1:' + String.fromCharCode('A'.charCodeAt(0) + values[0].length) + '1', values, function(){
+      values[0] = [];
+      for (var key in data) {
+	if (data.hasOwnProperty(key)) {
+	  values[0].push(data[key]);
+	}
+      }
+      dostuff(true, [make_Append(current_event, 'Data!A1', values, function(){
+	rcb();
+      })]); // sheet, range, values, cb
+    })]);
+  }]);
+}
+
 module.exports.setEvent = function(name, rcb){
   dostuff(true, [function(){
     dostuff(true, [make_Update(Meta, 'Sheet1!A1', [[name]], function(){
@@ -485,12 +520,14 @@ module.exports.setEvent = function(name, rcb){
 	for(let i = 0; i < files.length; i++){
 	  if(files[i].name == name){
 	    current_event = files[i].id;
+	    eventname = name;
 	    rcb(true);
 	    return;
 	  }
 	}
 	dostuff(true, [make_DriveCreate(name, 'application/vnd.google-apps.spreadsheet', [ServerFolder], function(sheet){
 	  current_event = sheet.id;
+	  eventname = name;
 	  dostuff(true, [make_AddSheet(current_event, 'Data', 1, 1, 0.0, 1.0, 0.0, 11000, function(matchSheet){
 	    dostuff(true, [make_AddSheet(current_event, 'meta', 1, 1, 0.0, 1.0, 1.0, 11002, function(matchSheet){
 	      rcb(false);
@@ -540,6 +577,7 @@ gauth.authenticate(function(auth){
 	      if(files[i].name == last_file){
 		console.log("Resuming event " + last_file);
 		current_event = files[i].id;
+		eventname = last_file;
 		ready = true;
 		return;
 	      }

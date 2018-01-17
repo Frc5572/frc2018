@@ -20,30 +20,7 @@
 
 namespace drivetrain {
   
-  static double MAX_JERK = 0.3;
   
-  struct point {
-    double x, y;
-  };
-  
-  class motion_profile {
-  public:
-    inline motion_profile(){}
-    inline ~motion_profile(){}
-    /*! \brief Retrieves velocity at a time 
-     \param t time
-     */
-    double operator()(double t);
-  private:
-    friend std::pair<motion_profile, motion_profile> profile(std::vector<point>);
-    std::vector<std::pair<double, std::vector<double> > > m_profile; // time, derivatives of distance (starting with velocity)
-  };
-  
-  /*! \brief Generate differential drive motion profile. 
-   * \param points coordinates of motion
-   * \param w distance between left and right wheels   
-   */
-  std::pair<motion_profile, motion_profile> diffprofile(std::vector<point> points, double w);
 #ifndef NOWPI
   class differential_drive {
   public:
@@ -51,7 +28,12 @@ namespace drivetrain {
      */
     template <typename T>
     static differential_drive fromMotors(std::vector<unsigned> left, std::vector<unsigned> right);
-    ~differential_drive();
+    /*! \brief Default destructor
+     */
+    inline ~differential_drive(){}
+    /*! Set motor speeds.
+     */
+    void set(double, double);
   private:
     inline differential_drive(std::vector<frc::SpeedController*> left, std::vector<frc::SpeedController*> right) : left(left), right(right) {}
     std::vector<SpeedController*> left, right;
