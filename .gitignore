@@ -36,5 +36,4 @@ out
 *.kdev*
 
 #passwords
-*secret.json
-secret.json
+*.json
