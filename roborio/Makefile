@@ -1,7 +1,7 @@
 AT = @
 INCDIR = -I$(HOME)/wpilib/cpp/current/include -I$(HOME)/wpilib/user/cpp/include
 CPPFLAGS += -g -Wall -W $(INCDIR) -std=c++14 -fPIC 
-LFLAGS = -L$(HOME)/wpilib/cpp/current/reflib/linux/athena/shared -L$(HOME)/wpilib/common/current/lib/linux/athena/shared -L$(HOME)/wpilib/user/cpp/lib -lwpi
+LFLAGS = -L$(HOME)/wpilib/cpp/current/reflib/linux/athena/shared -L$(HOME)/wpilib/common/current/lib/linux/athena/shared -L$(HOME)/wpilib/user/cpp/lib -lwpi -lpthread
 CXX = arm-frc-linux-gnueabi-g++
 TEAM = 5572
 RMCOMMAND = rm -f
@@ -9,18 +9,20 @@ DEPLOYTARGET = roboRIO-$(TEAM)-FRC.local
 
 SOURCES = ${shell find src -name '*.cpp'}
 HEADERS = ${shell find src -name '*.hpp'}
-OBJECTS = $(patsubst src/%.cpp,bin/%.o,$(SOURCES))
+OBJECTS = $(patsubst %.cpp,Debug/%.o,$(SOURCES))
 
 all: dirs $(OBJECTS)
-	test -d bin/ || mkdir -p bin/
+	@test -d Debug/src/ || mkdir -p Debug/src/
 	$(CXX) $(CPPFLAGS) $(OBJECTS) $(LFLAGS) -o FRCUserProgram
-	rm bin/* -rf
 
 dirs : 
-	mkdir -p ${subst src,bin,${shell find src -type d}}
+	@mkdir -p ${subst src,Debug/src,${shell find src -type d}}
 
-bin/%.o : src/%.cpp
+Debug/%.o : %.cpp
 	$(CXX) -c -o $@ $< $(CPPFLAGS)
+
+deploy :
+	@ant
 
 clean:
 	@for dir in src; do find $$dir -name \*.o -exec $(RMCOMMAND) {} \; ; done

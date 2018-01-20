@@ -20,6 +20,7 @@ var gauth = require('./gsheet');
 var readline = require('readline');
 var waitUntil = require('wait-until');
 var google = require('googleapis');
+var randomstring = require("randomstring");
 
 var drive = google.drive('v3');
 var sheets = google.sheets('v4');
@@ -490,6 +491,29 @@ module.exports.lastMatch = function(rcb){
   }]);
 }
 
+module.exports.authSetup = function(rcb){
+  var string = randomstring.generate(20);
+  dostuff(true, [function(){
+    dostuff(true, [make_Update(Meta, 'Auth!A1', [[string]], function(){
+      rcb(string);
+    })]);
+  }]);
+};
+
+module.exports.authUse = function(v, rcb){
+  dostuff(true, [function(){
+    dostuff(true, [make_Get(Meta, 'Auth!A1', function(data){
+      if(data.values[0][0] != v){
+        rcb(false);
+        return;
+      }
+      dostuff(true, [make_Get(Meta, 'Sheet1!A1', function(data){
+        rcb(true, data.values[0][0]);
+      })]);
+    })]);
+  }]);
+};
+
 module.exports.submit = function(data, rcb){
   dostuff(true, [function(){
     var values = [[]];
@@ -582,8 +606,9 @@ gauth.authenticate(function(auth){
 		return;
 	      }
 	    }
-	    console.log("Records claim last event was " + last_file + " but no such event file was found...");
+	    console.log("Records claim last event was " + last_file + " but no such event file was found... Creating it...");
 	    ready = true;
+            module.exports.setEvent(last_file, function(){});
 	  }
 	}]);} else {
 	  ready = true;

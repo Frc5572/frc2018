@@ -13,13 +13,22 @@
 #endif
 
 #ifndef NOWPI
-
 #include "WPILib.h"
-
 #endif
 
 namespace drivetrain {
-  
+  class differential_curve {
+  public:
+    differential_curve(double x, double y, double w);
+    inline ~differential_curve(){}
+    inline double& operator()(){return ratio;}
+    inline bool& operator~(){return left;};
+    inline double& operator-(){return length;}
+  private:
+    double ratio;
+    bool left;
+    double length;
+  };
   
 #ifndef NOWPI
   class differential_drive {

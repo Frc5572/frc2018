@@ -82,6 +82,9 @@ drive(function(){
   }
 });
 
+var authcode = '';
+var awaiting_auth = false;
+
 http.createServer(function (req, res) {
   if (req.method == 'POST') {
     var ended = false;
@@ -122,6 +125,32 @@ http.createServer(function (req, res) {
   }
   if(req.url == "/favicon.ico"){
     res.end();
+    return;
+  }
+  if(req.url == "/new"){
+    drive.authSetup(function(){
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write('Change Meta file, then use auth code');
+      res.end();
+      awaiting_auth = true;
+    });
+    return;
+  }
+  if(req.url == "/" + authcode && awaiting_auth){
+    console.log("Changing Event");
+    drive.authUse(function(v, d){
+      if(!v){
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.write('Incorrect Code');
+        res.end();
+        return;
+      }
+      event(d);
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write('Event changed');
+      res.end();
+      awaiting_auth = false;
+    });
     return;
   }
   if(!current_tba.hasdata || typeof current_tba.data == 'undefined' || typeof current_tba.data[current_tba.current_match] == 'undefined' || typeof current_tba.data[current_tba.current_match].alliances == 'undefined'){

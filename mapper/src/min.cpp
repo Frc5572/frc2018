@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <string>
 
-#include <nodejs/src/node.h>
+#include <node.h>
 #include "drivetrain/drivetrain.h"
 
 namespace watson {
@@ -24,14 +24,14 @@ namespace watson {
     
   }
   
-  void tbaget(const FunctionCallbackInfo<Value>& args){
+  void clothoid(const FunctionCallbackInfo<Value>& args){
     
   }
   
   
 
   void init(Local<Object> exports, Local<Object> module) {
-    NODE_SET_METHOD(exports, "tba", tbaget);
+    NODE_SET_METHOD(exports, "clothoid", clothoid);
     AtExit(aexit);
   }
 
