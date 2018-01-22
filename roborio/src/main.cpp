@@ -34,7 +34,7 @@ public:
 				return true;
 			}
 			drive.set(
-					.3
+					dc() * maxV + .5 * maxV
 							* (dc() * left.GetRaw() / WHEEL_CONSTANT
 									- right.GetRaw() / WHEEL_CONSTANT), maxV);
 		} else {
@@ -43,7 +43,7 @@ public:
 				return true;
 			}
 			drive.set(maxV,
-					maxV * .5 * (dc() * right.GetRaw() / WHEEL_CONSTANT
+					dc() * maxV + maxV * .5 * (dc() * right.GetRaw() / WHEEL_CONSTANT
 									- left.GetRaw() / WHEEL_CONSTANT));
 		}
 		return false;
