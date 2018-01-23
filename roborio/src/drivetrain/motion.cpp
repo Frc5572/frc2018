@@ -5,9 +5,9 @@
 #include "../util/math.h"
 
 drivetrain::differential_curve::differential_curve(double x, double y, double w){
-  left = true;
+  dl = false;
   ratio = 1;
-  length = 0;
+  ln = 0;
   if(y == 0){
     if(x == 0) return;
     double theta = x > 0 ? -PI : PI;
@@ -16,13 +16,13 @@ drivetrain::differential_curve::differential_curve(double x, double y, double w)
     double r2 = r + w / 2.0;
     double l1 = r1 * theta;
     double l2 = r2 * theta;
-    if(x > 0) {left = false;}
+    if(x > 0) {dl = true;}
     ratio = l2 / l1;
-    length = l2;
+    if(ratio > 1.0) ratio = 1.0 / ratio;
+    ln = l2;
   }
   if(x == 0){
     ratio = 1;
-
   }
   double theta = - 2.0 * atan2(x, y);
   double r = fabs(sin((PI - theta) / 2.0) * sqrt(x*x + y*y) / sin(theta));
@@ -32,7 +32,8 @@ drivetrain::differential_curve::differential_curve(double x, double y, double w)
   double r2 = r + w / 2.0;
   double l1 = r1 * theta;
   double l2 = r2 * theta;
-  if(x > 0) left = false; // swap l1 and l2
+  if(x > 0) dl = true; // swap l1 and l2
   ratio = l2 / l1;
-  length = l2;
+  if(ratio > 1.0) ratio = 1.0 / ratio;
+  ln = l2;
 }

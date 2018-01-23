@@ -68,11 +68,6 @@
          19,18,17,16,15,14,13,12,11,10, \
          9,8,7,6,5,4,3,2,1,0
 
-template <unsigned I = 0>
-struct compile_time_counter {
-  static constexpr unsigned value = I;
-};
-
 #define MAP(m, k, index, first, ...)           \
   m(index, k, first)                           \
   IF_ELSE(HAS_ARGS(__VA_ARGS__))(    \
