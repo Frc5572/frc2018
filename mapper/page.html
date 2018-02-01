@@ -10,6 +10,52 @@ svg {
   stroke-width: 0px;
   background-color: #ddddff;
 }
+
+textarea {
+  width : 90%;
+  height: 200px;
+  overflow: scroll;
+  resize: none;
+}
+
+ /* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    overflow-x: hidden;
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+} 
 </style>
 <script src="http://ariutta.github.io/svg-pan-zoom/dist/svg-pan-zoom.min.js"></script>
 </head>
@@ -23,12 +69,27 @@ svg {
 </g>
 </svg>
 <div id="toolbar" style="height:100px">
+<div style="float:left;">
 <input id="debug" type="checkbox"></input> Debug<br>
 Left Distance: <span id="leftdist"></span><br>
 Right Distance: <span id="rightdist"></span><br>
 End Heading: <span id="finalhead"></span><br>
-Axle Width: <input id="w" type="number" value="25"></input>
-Start Heading: <input id="starth" type="number" value="0"></input>
+</div>
+<div style="float:right;">
+Axle Width: <input id="w" type="number" value="25"></input><br>
+Start Heading: <input id="starth" type="number" value="0"></input><br>
+Robot Width: <input id="width" type="number" value="20"></input><br>
+Robot Length: <input id="length" type="number" value="20"></input><br>
+<button id="gen">Generate Code</button>
+</div>
+</div>
+<div id="gen-modal" class="modal">
+  <div class="modal-content">
+    <p>Put this in <code>void Autonomous()</code> method body and implement a <code>reset()</code> method which resets the two encoders and stops the robot momentarily</p>
+    <textarea readonly id="codeout">
+    </textarea>
+  </div>
+
 </div>
 <script>
 function $(x){
@@ -38,6 +99,19 @@ function $(x){
 var path = [];
 var dragging = false;
 var selected = -1;
+
+var globalcode = "";
+var initcode = "";
+var code = "";
+
+var lenc = "left";
+var renc = "right";
+var wconst = "WHEEL_CONSTANT";
+var curvep = "CURVE_P";
+var drivetrain_name = "drive";
+var drivetrain_width = "DRIVETRAIN_WIDTH";
+var minspeed = "min_speed";
+var maxspeed = "max_speed";
 
 function dist(a, b){
   return Math.sqrt(
@@ -67,7 +141,7 @@ function wrapping_limit(v, min, max){
 
 function curve_geometry(x, y, w){
   if(y == 0){
-    if(x == 0) return {l1: 0, l2: 0, theta: 0, r : 0, arc: false};
+    if(x == 0) return {l1: 0, l2: 0, theta: 0, r : drivetrain_width, arc: false};
     let theta = x > 0 ? -Math.PI : Math.PI;
     let r = x > 0 ? x / 2.0 : -x / 2.0;
     let r1 = r - w / 2.0;
@@ -77,7 +151,7 @@ function curve_geometry(x, y, w){
     if(x > 0) return {l2: l1, l1: l2, theta: theta, r: r, arc: true, flipped: true}; // swap l1 and l2
     return {l1: l1, l2: l2, theta: theta, r: r, arc: true, flipped: false};
   }
-  if(x == 0){
+  if(Math.abs(x) < 1e-3){
     return {l1: y, l2: y, theta: 0, r: 0, arc: false, flipped: false};
   }
   let theta = - 2.0 * Math.atan2(x, y);
@@ -127,11 +201,16 @@ function mod(a, n){
   return (a % n + n) % n;
 }
 
+var dcname = 0;
+
 function curve_segment(x, y, heading, w){
   var ex = x * Math.cos(-heading) - y * Math.sin(-heading);
   var ey = x * Math.sin(-heading) + y * Math.cos(-heading);
   
   var curve = curve_geometry(ex, ey, w);
+  
+  initcode += "drivetrain::differential_curve dc" + dcname + "(" + ex + ", " + ey + ", axle_width);\n";
+  code += "while (IsAutonomous() && IsEnabled() && !drivetrain::driveto(" + drivetrain_name + ", dc" + (dcname++) + ", " + maxspeed + ", " + minspeed + ", " + lenc + ".GetRaw() / " + wconst + ", " + renc +".GetRaw() / " + wconst + ", " + curvep + ")) {\n\t/* Put something here */\n}\nreset();\n\n";
   
   var rx = (curve.flipped ? 1 : -1) * curve.r * Math.cos(heading);
   var ry = (curve.flipped ? 1 : -1) * curve.r * Math.sin(heading);
@@ -142,8 +221,14 @@ function curve_segment(x, y, heading, w){
 }
 
 function refresh(){
+  code = "";
+  initcode = "double axle_width = " + $("w").value + ";\ndouble max_speed = .45;\ndouble min_speed = .3;\n\n";
+  dcname = 0;
   $("points").innerHTML = "";
   if(path.length == 0) return;
+  var current_heading = ($("starth").value * Math.PI) / 180.0;
+  var x = 20 + $("width").value / 2.0 * Math.cos(-current_heading) + $("length").value / 2.0 * Math.sin(-current_heading);
+  path[0].x = x;
   var w = $("w").value;
   var left_color = "rgba()";
   var right_color = "";
@@ -151,7 +236,6 @@ function refresh(){
   for(let i = 0; i < path.length; i++){
     point(path[i].x, path[i].y, i == selected ? "rgb(255, 0, 0)" : "rgb(0, 0, 0)");
   }
-  var current_heading = ($("starth").value * Math.PI) / 180.0;
   line(path[0].x + w / 2.0 * Math.cos(current_heading), path[0].y + w / 2.0 * Math.sin(current_heading), path[0].x - w / 2.0 * Math.cos(current_heading), path[0].y - w / 2.0 * Math.sin(current_heading), "rgb(128, 0, 255)");
   if($('debug').checked)
   line(path[0].x + w / 2.0 * Math.cos(current_heading + Math.PI / 2), path[0].y + w / 2.0 * Math.sin(current_heading + Math.PI / 2), path[0].x, path[0].y, "rgb(128, 0, 255)");
@@ -168,6 +252,7 @@ function refresh(){
     righttotal += curve.l2;
     if(!curve.arc){ // Straight line
       line(path[i - 1].x + w / 2.0 * Math.cos(current_heading), path[i - 1].y + w / 2.0 * Math.sin(current_heading), path[i].x + w / 2.0 * Math.cos(current_heading), path[i].y + w / 2.0 * Math.sin(current_heading), "rgb(0, 0, 0)");
+      line(path[i - 1].x - w / 2.0 * Math.cos(current_heading), path[i - 1].y - w / 2.0 * Math.sin(current_heading), path[i].x - w / 2.0 * Math.cos(current_heading), path[i].y - w / 2.0 * Math.sin(current_heading), "rgb(0, 0, 0)");
       continue;
     }
     if($("debug").checked){
@@ -202,6 +287,7 @@ function refresh(){
   line(path[i-1].x + w / 2.0 * Math.cos(current_heading), path[i-1].y + w / 2.0 * Math.sin(current_heading), path[i-1].x - w / 2.0 * Math.cos(current_heading), path[i-1].y - w / 2.0 * Math.sin(current_heading), "rgb(128, 0, 255)");
   $("leftdist").innerHTML = lefttotal;
   $("rightdist").innerHTML = righttotal;
+  $("codeout").innerHTML = initcode + "\n\n" + code;
   $("finalhead").innerHTML = wrapping_limit(180.0 * current_heading / Math.PI + 90, 0, 360) + "&deg;";
 }
 
@@ -212,14 +298,14 @@ function addToPath(x, y){
 
 function onresize(){
   $("canvas").setAttribute("width", window.innerWidth + "px");
-  $("canvas").setAttribute("height", (window.innerHeight - 100) + "px");
-  $("points").setAttribute("transform", "matrix(1 0 0 -1 0 " + (window.innerHeight - 100) + ")");
+  $("canvas").setAttribute("height", (window.innerHeight - 200) + "px");
+  $("points").setAttribute("transform", "matrix(1 0 0 -1 0 " + (window.innerHeight - 200) + ")");
   $("toolbar").style.width = window.innerWidth + "px";
   var vertiline = $("mouseover_v");
   var horizline = $("mouseover_h");
   if (typeof(vertiline) != 'undefined' && vertiline != null){
     vertiline.setAttribute("y1", "0");
-    vertiline.setAttribute("y2", "" + (window.innerHeight - 100));
+    vertiline.setAttribute("y2", "" + (window.innerHeight - 200));
   }
   if (typeof(horizline) != 'undefined' && horizline != null){
     horizline.setAttribute("x1", "0");
@@ -233,6 +319,20 @@ onresize();
 window.addEventListener('resize', onresize);
 
 $("debug").addEventListener('click', refresh);
+$("gen").addEventListener('click', function(){
+  $("gen-modal").style.display = "block";
+});
+var closes = document.getElementsByClassName("close");
+for(var i = 0; i < closes.length; i++){
+  closes[i].addEventListener('click', function(){
+    closes[i].parentNode.parentNode.style.display = "none";
+  });
+}
+window.addEventListener('click', function(event) {
+    if (event.target.className == 'modal') {
+        event.target.style.display = "none";
+    }
+});
 $("w").addEventListener('change', refresh);
 $("starth").addEventListener('change', refresh);
 
@@ -262,14 +362,14 @@ $("canvas").addEventListener('mousemove', function(e){
   // Dragging
   if(dragging && selected != -1){
     path[selected].x = e.clientX;
-    path[selected].y = (window.innerHeight - 100) - e.clientY;
+    path[selected].y = (window.innerHeight - 200) - e.clientY;
     refresh();
   }
 });
 
 $("canvas").addEventListener('click', function(e){
   if(e.which == 1 && e.ctrlKey)
-  addToPath(e.clientX, (window.innerHeight - 100) - e.clientY);
+  addToPath(e.clientX, (window.innerHeight - 200) - e.clientY);
   else if(e.which == 3){
     // Menu
   }
@@ -283,7 +383,7 @@ $("canvas").addEventListener('contextmenu', function(ev) {
 $("canvas").addEventListener('mousedown', function(e){
   if(e.which == 1){
     if(e.ctrlKey) return;
-    var closest = closest_path(e.clientX, (window.innerHeight - 100) - e.clientY);
+    var closest = closest_path(e.clientX, (window.innerHeight - 200) - e.clientY);
     if(closest !== false){
       selected = closest;
       refresh();
