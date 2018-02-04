@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.21)  1 FEB 2018 17:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.10.21)  2 FEB 2018 13:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1189,9 +1189,9 @@ LaTeX Font Info:    Font shape `T1/phv/m/n' will be
 
 ]
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <7> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 62.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 60.
 LaTeX Font Info:    Font shape `T1/phv/b/n' will be
-(Font)              scaled to size 6.29996pt on input line 62.
+(Font)              scaled to size 6.29996pt on input line 60.
  [4] [5])
 \tf@toc=\write5
 \openout5 = `refman.toc'.
@@ -1251,101 +1251,63 @@ LaTeX Font Info:    Font shape `T1/phv/m/it' in size <9> not available
 (Font)              Font shape `T1/phv/m/sl' tried instead on input line 7.
 LaTeX Font Info:    Font shape `T1/phv/m/sl' will be
 (Font)              scaled to size 8.09995pt on input line 7.
-
-Underfull \hbox (badness 1436) in paragraph at lines 13--14
-[]\T1/phv/m/n/10 bool [][]driv-eto[][] ([][]drivetrain[]::differential[]_[]driv
-e[][] &drive, [][]drivetrain[]::differential[]_[]curve[][] &curve[]_[]geometry,
- dou-ble
- []
-
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 7.19995pt on input line 13.
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 8.99994pt on input line 30.
+(Font)              scaled to size 8.99994pt on input line 28.
 LaTeX Font Info:    Font shape `T1/phv/bc/n' will be
-(Font)              scaled to size 6.29996pt on input line 30.
+(Font)              scaled to size 6.29996pt on input line 28.
 LaTeX Font Info:    Font shape `T1/phv/bc/it' in size <10> not available
-(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 30.
+(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 28.
 LaTeX Font Info:    Font shape `T1/phv/bc/sl' will be
-(Font)              scaled to size 8.99994pt on input line 30.
+(Font)              scaled to size 8.99994pt on input line 28.
 LaTeX Font Info:    Font shape `T1/phv/bc/it' in size <7> not available
-(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 30.
+(Font)              Font shape `T1/phv/bc/sl' tried instead on input line 28.
 LaTeX Font Info:    Font shape `T1/phv/bc/sl' will be
-(Font)              scaled to size 6.29996pt on input line 30.
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 30.
+(Font)              scaled to size 6.29996pt on input line 28.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 28.
+
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
 
-LaTeX Font Warning: Font shape `T1/pcr/bc/it' undefined
-(Font)              using `T1/pcr/m/n' instead on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `alignment tab' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 30.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 30.
-
-
-Overfull \vbox (25.13654pt too high) has occurred while \output is active []
-
-
-[7]) (./namespacemath.tex
-
 LaTeX Font Warning: Font shape `T1/pcr/bc/n' undefined
-(Font)              using `T1/pcr/m/n' instead on input line 25.
+(Font)              using `T1/pcr/m/n' instead on input line 28.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 47.
+(hyperref)                removing `subscript' on input line 28.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 58.
+(hyperref)                removing `alignment tab' on input line 28.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 71.
+(hyperref)                removing `subscript' on input line 28.
 
-[8]) [9] [10
 
-]
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `alignment tab' on input line 28.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 28.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 28.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 28.
+
+) (./namespacemath.tex [7]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 45.
+
+) [8]
 Chapter 5.
 (./classdrivetrain_1_1differential__curve.tex
 
@@ -1356,26 +1318,25 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `subscript' on input line 50.
 
-[11]) (./classdrivetrain_1_1differential__drive.tex
-LaTeX Font Info:    Font shape `T1/phv/m/n' will be
-(Font)              scaled to size 7.19995pt on input line 14.
+[9
 
+]) (./classdrivetrain_1_1differential__drive.tex
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `subscript' on input line 30.
 
-[12]) (./classFRC5572Controller.tex [13]
+[10]) (./classFRC5572Controller.tex [11]
 LaTeX Font Info:    Font shape `TS1/phv/m/it' in size <9> not available
 (Font)              Font shape `TS1/phv/m/sl' tried instead on input line 50.
 LaTeX Font Info:    Font shape `TS1/phv/m/sl' will be
 (Font)              scaled to size 8.09995pt on input line 50.
- [14] [15])
+ [12] [13])
 (./classvaropt__empty__list.tex
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `subscript' on input line 29.
 
-[16]) (./structvaropt__helper.tex
+[14]) (./structvaropt__helper.tex
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 1.
@@ -1396,7 +1357,23 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `subscript' on input line 33.
 
-[17]) (./structvaropt__helper_3_01A_00_01A_01_4.tex
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 33.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 33.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 33.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 33.
+
+[15]) (./structvaropt__helper_3_01A_00_01A_01_4.tex
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 1.
@@ -1412,6 +1389,22 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 1.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 33.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 33.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 33.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 33.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
@@ -1434,7 +1427,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 1.
 
-[18]
+[16]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `subscript' on input line 35.
@@ -1460,7 +1453,7 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 1.
 
-[19]
+[17]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `subscript' on input line 34.
@@ -1486,19 +1479,19 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 1.
 
-<structvaropt__val__coll__graph.pdf, id=803, 179.67125pt x 167.62625pt>
+<structvaropt__val__coll__graph.pdf, id=802, 179.67125pt x 167.62625pt>
 File: structvaropt__val__coll__graph.pdf Graphic file (type pdf)
 
 <use structvaropt__val__coll__graph.pdf>
 Package pdftex.def Info: structvaropt__val__coll__graph.pdf used on input line 
 18.
 (pdftex.def)             Requested size: 179.0pt x 167.01195pt.
- [20]
+ [18]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `subscript' on input line 70.
 
-[21 <./structvaropt__val__coll__graph.pdf>]) [22]
+[19 <./structvaropt__val__coll__graph.pdf>]) [20]
 Chapter 6.
 (./controller_8h.tex <controller_8h__incl.pdf, id=843, 228.855pt x 156.585pt>
 File: controller_8h__incl.pdf Graphic file (type pdf)
@@ -1507,54 +1500,88 @@ File: controller_8h__incl.pdf Graphic file (type pdf)
 Package pdftex.def Info: controller_8h__incl.pdf used on input line 9.
 (pdftex.def)             Requested size: 228.0pt x 156.0064pt.
 ) (./drivetrain_8h.tex
-<drivetrain_8h__incl.pdf, id=845, 348.30125pt x 156.585pt>
+<drivetrain_8h__incl.pdf, id=845, 423.5825pt x 212.795pt>
 File: drivetrain_8h__incl.pdf Graphic file (type pdf)
 
 <use drivetrain_8h__incl.pdf>
-Package pdftex.def Info: drivetrain_8h__incl.pdf used on input line 11.
-(pdftex.def)             Requested size: 347.0pt x 156.0064pt.
- [23
+Package pdftex.def Info: drivetrain_8h__incl.pdf used on input line 12.
+(pdftex.def)             Requested size: 350.0pt x 175.83401pt.
+ [21
 
- <./controller_8h__incl.pdf>]) (./math_8h.tex
-<math_8h__dep__incl.pdf, id=864, 204.765pt x 156.585pt>
+ <./controller_8h__incl.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 47.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 47.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 54.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 54.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 61.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 61.
+
+) (./math_8h.tex <math_8h__dep__incl.pdf, id=867, 204.765pt x 156.585pt>
 File: math_8h__dep__incl.pdf Graphic file (type pdf)
 
 <use math_8h__dep__incl.pdf>
 Package pdftex.def Info: math_8h__dep__incl.pdf used on input line 7.
 (pdftex.def)             Requested size: 204.0pt x 156.00879pt.
- [24 <./drivetrain_8h__incl.pdf> <./math_8h__dep__incl.pdf
-
-pdfTeX warning: pdflatex (file ./math_8h__dep__incl.pdf): PDF inclusion: multip
-le pdfs with page group included in a single page
->]) (./varopt_8h.tex <varopt_8h__incl.pdf, id=894, 224.84pt x 156.585pt>
+ [22 <./drivetrain_8h__incl.pdf>]) (./varopt_8h.tex <varopt_8h__incl.pdf, id=89
+1, 224.84pt x 156.585pt>
 File: varopt_8h__incl.pdf Graphic file (type pdf)
-
-<use varopt_8h__incl.pdf>
-Package pdftex.def Info: varopt_8h__incl.pdf used on input line 9.
+ <use varopt_8h__incl.pdf>
+Package pdftex.def Info: varopt_8h__incl.pdf used on input line 14.
 (pdftex.def)             Requested size: 224.0pt x 156.0064pt.
- [25 <./varopt_8h__incl.pdf>]
+
+[23 <./math_8h__dep__incl.pdf>]
+<varopt_8h__dep__incl.pdf, id=907, 204.765pt x 156.585pt>
+File: varopt_8h__dep__incl.pdf Graphic file (type pdf)
+
+<use varopt_8h__dep__incl.pdf>
+Package pdftex.def Info: varopt_8h__dep__incl.pdf used on input line 21.
+(pdftex.def)             Requested size: 204.0pt x 156.00879pt.
+ [24 <./varopt_8h__incl.pdf> <./varopt_8h__dep__incl.pdf
+
+pdfTeX warning: pdflatex (file ./varopt_8h__dep__incl.pdf): PDF inclusion: mult
+iple pdfs with page group included in a single page
+>]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 50.
+(hyperref)                removing `subscript' on input line 67.
 
-[26]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 76.
-
-) [27] [28
-
-] (./refman.ind [29
+(hyperref)                removing `subscript' on input line 93.
 
 
-] [30])
+Overfull \vbox (23.54733pt too high) has occurred while \output is active []
+
+
+[25]) [26] (./refman.ind [27
+
+
+
+] [28])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 175.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 175.
  (./refman.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 175.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 175.
 Package rerunfilecheck Info: File `refman.out' has not changed.
-(rerunfilecheck)             Checksum: 4740A7C201404199B9D33D717CD9914A;23401.
+(rerunfilecheck)             Checksum: CD9B4911B8C1F427A65F45868445CBDF;23860.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -1562,13 +1589,13 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 175.
  ) 
 Here is how much of TeX's memory you used:
- 15265 strings out of 493029
- 221046 string characters out of 6136233
- 317013 words of memory out of 5000000
- 18263 multiletter control sequences out of 15000+600000
- 72105 words of font info for 92 fonts, out of 8000000 for 9000
+ 15271 strings out of 493029
+ 221331 string characters out of 6136233
+ 316261 words of memory out of 5000000
+ 18264 multiletter control sequences out of 15000+600000
+ 72726 words of font info for 94 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 53i,15n,92p,2727b,632s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 53i,15n,92p,2325b,591s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist
@@ -1583,10 +1610,10 @@ e/texmf-dist/fonts/type1/urw/helvetic/uhvb8ac.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/helvetic/uhvbo8ac.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helv
 etic/uhvro8a.pfb>
-Output written on refman.pdf (36 pages, 231894 bytes).
+Output written on refman.pdf (34 pages, 232930 bytes).
 PDF statistics:
- 1163 PDF objects out of 1200 (max. 8388607)
- 1088 compressed objects within 11 object streams
- 242 named destinations out of 1000 (max. 500000)
- 850 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1177 PDF objects out of 1200 (max. 8388607)
+ 1101 compressed objects within 12 object streams
+ 245 named destinations out of 1000 (max. 500000)
+ 879 words of extra memory for PDF output out of 10000 (max. 10000000)
 

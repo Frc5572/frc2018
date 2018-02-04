@@ -7,7 +7,7 @@
 #include <Encoder.h>
 
 #include "drivetrain/drivetrain.h"
-#include "controller.h"
+#include "input/controller.h"
 #include "util/cpreprocessor.h"
 
 class Robot: public frc::SampleRobot {
@@ -37,9 +37,9 @@ public:
 		left.Reset();
 		right.Reset();
 		while (IsAutonomous() && IsEnabled()
-				&& !drivetrain::driveto(drive, dc, -.45, -.4,
+				&& !drivetrain::driveto(drive, dc,
 						fabs(left.GetRaw() / WHEEL_CONSTANT),
-						fabs(right.GetRaw() / WHEEL_CONSTANT), CURVE_P)) {
+						fabs(right.GetRaw() / WHEEL_CONSTANT), curve_p = CURVE_P, max_velocity = 0.45)) {
 			SmartDashboard::PutNumber("left", left.GetRaw() / WHEEL_CONSTANT);
 			SmartDashboard::PutNumber("right", right.GetRaw() / WHEEL_CONSTANT);
 		}
@@ -49,9 +49,8 @@ public:
 		right.Reset();
 		Wait(0.5);
 		while (IsAutonomous() && IsEnabled()
-				&& !drivetrain::driveto(drive, dc1, -.45, -.4,
-						fabs(left.GetRaw() / WHEEL_CONSTANT),
-						fabs(right.GetRaw() / WHEEL_CONSTANT), CURVE_P)) {
+				&& !drivetrain::driveto(drive, dc1, fabs(left.GetRaw() / WHEEL_CONSTANT),
+						fabs(right.GetRaw() / WHEEL_CONSTANT), curve_p = CURVE_P, max_velocity = 0.45)) {
 			SmartDashboard::PutNumber("left", left.GetRaw() / WHEEL_CONSTANT);
 			SmartDashboard::PutNumber("right", right.GetRaw() / WHEEL_CONSTANT);
 		}
@@ -63,9 +62,9 @@ public:
 		SmartDashboard::PutNumber("left", left.GetRaw() / WHEEL_CONSTANT);
 		SmartDashboard::PutNumber("right", right.GetRaw() / WHEEL_CONSTANT);
 		while (IsAutonomous() && IsEnabled()
-				&& !drivetrain::driveto(drive, dc2, -.45, -.4,
+				&& !drivetrain::driveto(drive, dc2,
 						fabs(left.GetRaw() / WHEEL_CONSTANT),
-						fabs(right.GetRaw() / WHEEL_CONSTANT), CURVE_P)) {
+						fabs(right.GetRaw() / WHEEL_CONSTANT), curve_p = CURVE_P, max_velocity = -0.45, min_velocity = -0.3)) {
 			SmartDashboard::PutNumber("left", left.GetRaw() / WHEEL_CONSTANT);
 			SmartDashboard::PutNumber("right", right.GetRaw() / WHEEL_CONSTANT);
 		}

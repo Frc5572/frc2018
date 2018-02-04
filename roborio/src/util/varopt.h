@@ -1,3 +1,8 @@
+/*! \file varopt.h
+ *  A set of tools to allow for optional parameters to be unordered. 
+ *  Developers planning on using this should look at varopt(), varopt_def(), and varopt_eval()
+ */
+
 #ifndef VAROPT_H_
 #define VAROPT_H_
 
@@ -12,7 +17,7 @@
   template <typename T> inline varopt_val<_##v, T> operator=(T t){\
     return varopt_val<_##v, T>(t);\
   }\
-};} varopt_def::_##v v;
+};} __attribute__((unused)) static varopt_def::_##v v;
 
 /*! \brief evaluate variadic option
  *  \param v name of variadic list
@@ -36,7 +41,7 @@
 
 /*! \brief value type for varopt
  */
-template <class N, class T>
+template <typename N, typename T>
 struct varopt_val {
   /*! \brief referencable alias for template parameter N
  */
@@ -57,7 +62,7 @@ struct varopt_val {
 template <class A, class B>
 struct varopt_helper {
   template <typename aT, typename bT>
-  inline static bT get(aT value, bT _default){
+  inline static bT get(__attribute__((unused)) aT value, bT _default){
     return _default;
   }
 };
@@ -68,7 +73,7 @@ struct varopt_helper {
 template <class A>
 struct varopt_helper<A,A> {
   template <typename aT, typename bT>
-  inline static bT get(aT value, bT _default){
+  inline static bT get(aT value, __attribute__((unused)) bT _default){
     return value;
   }
 };
@@ -77,9 +82,6 @@ struct varopt_helper<A,A> {
  */
 template <typename T, typename ... K>
 class varopt_list {
-private:
-  varopt_list<K...> next;
-  T val;
 public:
   /*! \brief constructor which takes a list of varopt_val
   */
@@ -91,6 +93,9 @@ public:
   inline dT get(dT _default){
     return varopt_helper<typename decltype(val)::name, D>::get(val.val, next.template get<D, dT>(_default));
   }
+private:
+  T val;
+  varopt_list<K...> next;
 };
 
 /*! \brief list of variadic options
@@ -128,14 +133,14 @@ public:
 /*! \brief return varopt list or empty_varopt_list given arguments
  */
 template <typename ... T>
-auto varopt(T... t){
+inline auto varopt(T... t){
   return varopt_list<T...>(t...);
 }
 
 /*! \brief return varopt list or empty_varopt_list given arguments
  */
 template <>
-auto varopt<>(){
+inline auto varopt<>(){
   return varopt_empty_list();
 }
 //*/

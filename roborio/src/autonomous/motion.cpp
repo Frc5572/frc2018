@@ -1,4 +1,4 @@
-#include "drivetrain.h"
+#include "../drivetrain/drivetrain.h"
 #include <tuple>
 
 #include <cmath>
@@ -7,7 +7,7 @@
 unsigned test = 0;
 
 
-bool drivetrain::driveto(drivetrain::differential_drive& drive, drivetrain::differential_curve& dc, double maxV, double minV, double ldist, double rdist, double curve_p) {
+bool drivetrain::detail::driveto(drivetrain::differential_drive& drive, drivetrain::differential_curve& dc, double maxV, double minV, double ldist, double rdist, double curve_p) {
 	if(dc() == 1){
 		drive.set(maxV, maxV);
 		if(ldist >= dc.length()) return true;

@@ -5,6 +5,7 @@
 #include <utility>
 
 #include "../util/math.h"
+#include "../util/varopt.h"
 
 #if __EXCEPTIONS == 1 // NodeJS disables exceptions, so we can detect what is compiling this file
 
@@ -18,6 +19,11 @@
 
 #ifndef NOWPI
 #include "WPILib.h"
+
+varopt_def(curve_p);
+varopt_def(max_velocity);
+varopt_def(min_velocity);
+
 #endif
 
 namespace drivetrain {
@@ -65,17 +71,35 @@ namespace drivetrain {
     inline differential_drive(std::vector<frc::SpeedController*> left, std::vector<frc::SpeedController*> right) : left(left), right(right) {}
     std::vector<SpeedController*> left, right;
   };
-  
-  /*! \brief Update drivetrain to follow curve geometry
+  #ifndef DOXYGEN_SHOULD_SKIP_THIS // Doxygen shouldn't see the nowpi define, because it will document it otherwise
+  namespace detail {
+    bool driveto(drivetrain::differential_drive& drive, drivetrain::differential_curve& curve_geometry, double max_velocity, double min_velocity, double left_distance, double right_distance, double curve_proportional_gain);
+  }
+#endif
+/*! \brief Update drivetrain to follow curve geometry
    *  \param drive drivetrain to control
    *  \param curve_geometry differential curve geometry for the drivetrain to follow
-   *  \param max_velocity maximum speed applied to motor controllers (between 0 and 1) Also controls direction (if positive, moves forward, otherwise move backwards)
-   *  \param min_velocity minimum speed applied to motor controllers (between 0 and 1) Also controls direction (if positive, moves forward, otherwise move backwards)
    *  \param left_distance current distance of the left encoder. Should be in same units as curve_geometry
    *  \param right_distance current distance of the right encoder. Should be in same units as curve_geometry
-   *  \param curve_proportional_gain proportional gain for differences in what left and right encoders should read. Larger values mean more aggressive corrections.
+   * 
+   * 
+   * Optional Parameters
+   * 
+\f{tabular} {| c | c |}
+\hline max\_velocity & maximum velocity to apply \\
+\hline min\_velocity & minimum velocity to apply \\
+\hline curve\_p & aggressiveness of corrections \\
+\hline
+\f}
    */
-  bool driveto(drivetrain::differential_drive& drive, drivetrain::differential_curve& curve_geometry, double max_velocity, double min_velocity, double left_distance, double right_distance, double curve_proportional_gain = .5);
+  template <typename ... VAROPT>
+  inline bool driveto(drivetrain::differential_drive& drive, drivetrain::differential_curve& curve_geometry, double left_distance, double right_distance, VAROPT ... varopts){
+    auto v = varopt<VAROPT...>(varopts...);
+    varopt_eval(v, max_velocity, 1.0);
+    varopt_eval(v, min_velocity, 0.3);
+    varopt_eval(v, curve_p, 0.5);
+    return detail::driveto(drive, curve_geometry, max_velocity, min_velocity, left_distance, right_distance, curve_p);
+  }
 #endif
 };
 
