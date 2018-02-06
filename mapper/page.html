@@ -210,7 +210,7 @@ function curve_segment(x, y, heading, w){
   var curve = curve_geometry(ex, ey, w);
   
   initcode += "drivetrain::differential_curve dc" + dcname + "(" + ex + ", " + ey + ", axle_width);\n";
-  code += "while (IsAutonomous() && IsEnabled() && !drivetrain::driveto(" + drivetrain_name + ", dc" + (dcname++) + ", " + maxspeed + ", " + minspeed + ", " + lenc + ".GetRaw() / " + wconst + ", " + renc +".GetRaw() / " + wconst + ", " + curvep + ")) {\n\t/* Put something here */\n}\nreset();\n\n";
+  code += "while (robot->IsAutonomous() && robot->IsEnabled() && !drivetrain::driveto(" + drivetrain_name + ", dc" + (dcname++) + ", " + maxspeed + ", " + minspeed + ", " + lenc + ".GetRaw() / " + wconst + ", " + renc +".GetRaw() / " + wconst + ", " + curvep + ")) {\n\t/* Put something here */\n}\nreset();\n\n";
   
   var rx = (curve.flipped ? 1 : -1) * curve.r * Math.cos(heading);
   var ry = (curve.flipped ? 1 : -1) * curve.r * Math.sin(heading);
@@ -227,7 +227,7 @@ function refresh(){
   $("points").innerHTML = "";
   if(path.length == 0) return;
   var current_heading = ($("starth").value * Math.PI) / 180.0;
-  var x = 20 + $("width").value / 2.0 * Math.cos(-current_heading) + $("length").value / 2.0 * Math.sin(-current_heading);
+  var x = 20 + parseInt($("length").value);
   path[0].x = x;
   var w = $("w").value;
   var left_color = "rgba()";
