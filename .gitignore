@@ -37,3 +37,16 @@ out
 
 #passwords
 *.json
+
+#tex
+*.tex*
+*.dot
+*.md5
+*.sty
+*.aux
+*.idx
+*.ilg
+*.ind
+*.toc
+*incl.pdf
+*dep.pdf
