@@ -79,6 +79,17 @@
 
 #define VA_ITER(x, k, ...) EVAL1(EXPAND EVAL_(EVAL1(PP_NARG(__VA_ARGS__)), (MAP(x, k, 0, __VA_ARGS__))))
 
+#define MAPD(m, k, index, first, second, ...)           \
+  m(index, k, first, second)                           \
+  IF_ELSE(HAS_ARGS(__VA_ARGS__))(    \
+    DEFER2(_MAPD)()(m, k, INC(index), __VA_ARGS__)   \
+  )(                                 \
+    /* Do nothing, just terminate */ \
+  )
+#define _MAPD() MAPD
+
+#define VA_ITER_2(x, k, ...) EVAL1(EXPAND EVAL_(EVAL1(PP_NARG(__VA_ARGS__)), (MAPD(x, k, 0, __VA_ARGS__))))
+
 #define INC_0 1
 #define INC_1 2
 #define INC_2 3

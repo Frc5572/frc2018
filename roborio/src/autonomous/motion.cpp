@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include "../util/math.h"
+#include <iostream>
 
 unsigned test = 0;
 
@@ -65,6 +66,7 @@ drivetrain::differential_curve::differential_curve(double x, double y, double w)
   }
   double theta = - 2.0 * atan2(x, y);
   double r = fabs(sin((PI - theta) / 2.0) * sqrt(x*x + y*y) / sin(theta));
+  std::cout << r << std::endl;
   theta = math::wrapping_limit(theta, 0, 2.0 * PI);
   SmartDashboard::PutNumber("Radius", r);
   SmartDashboard::PutNumber("Theta", theta);

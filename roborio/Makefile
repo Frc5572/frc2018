@@ -15,6 +15,9 @@ all: dirs $(OBJECTS)
 	@test -d Debug/src/ || mkdir -p Debug/src/
 	$(CXX) $(CPPFLAGS) $(OBJECTS) $(LFLAGS) -o FRCUserProgram
 
+see:
+	$(CXX) -E src/autonomous/auto.cpp $(CPPFLAGS) $(LFLAGS)
+
 dirs : 
 	@mkdir -p ${subst src,Debug/src,${shell find src -type d}}
 

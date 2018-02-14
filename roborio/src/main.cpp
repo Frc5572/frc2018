@@ -5,100 +5,71 @@
 #include <SampleRobot.h>
 #include <SmartDashboard/SmartDashboard.h>
 #include <Encoder.h>
+#include <CameraServer.h>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/core/types.hpp>
 
 #include "drivetrain/drivetrain.h"
 #include "input/controller.h"
 #include "util/cpreprocessor.h"
+#include "autonomous/auto.h"
+
+void cameraThread(){
+  cs::UsbCamera camera = cs::UsbCamera("default_cam", 0);
+  cs::CvSource outputStream = frc::CameraServer::GetInstance()->PutVideo(
+"DriveStationVideo", 640, 480);
+  cs::CvSink front = frc::CameraServer::GetInstance()->GetVideo(camera);
+  cv::Mat mat;
+  while(1){
+    front.GrabFrame(mat);
+    outputStream.PutFrame(mat);
+  }
+}
+
+VictorSP intake_left {5}, intake_right {4}, intake_lift {3};
 
 class Robot: public frc::SampleRobot {
 public:
-  FRC5572Controller driver;
+  FRC5572Controller driver, op;
   Encoder left, right;
+  DigitalInput top {5}, bottom {4};
   drivetrain::differential_drive drive;
   Robot() :
-      driver(2), left(2, 3), right(0, 1, true), drive(
+      driver(2), op(0), left(0, 1), right(2, 3), drive(
           drivetrain::differential_drive::fromMotors<frc::VictorSP>( {
-              0, 1 }, { 2, 3 })) {
+              6, 7 }, { 8, 9 })) {
   }
 
   void RobotInit() {
-
+    std::thread t(cameraThread);
+    t.detach();
   }
 
-#define WHEEL_CONSTANT 204
-#define DRIVETRAIN_WIDTH 20.375
+#define WHEEL_CONSTANT 155.15686
+#define DRIVETRAIN_WIDTH 20.5
 #define CURVE_P .5
+#define SLIPPING_MULTIPLIER .8
+
+  static void intake(double d){
+	  intake_left.Set(d);
+	  intake_right.Set(-d);
+	  Wait(1.0);
+	  intake_left.Set(0);
+	  intake_right.Set(0);
+  }
 
   void Autonomous() {
-    drivetrain::differential_curve dc(-36, 36, DRIVETRAIN_WIDTH);
-    drivetrain::differential_curve dc1(0, 36, DRIVETRAIN_WIDTH);
-    drivetrain::differential_curve dc2(24, 24, DRIVETRAIN_WIDTH);
-    SmartDashboard::PutNumber("Auto_Seq", 0);
-    left.Reset();
-    right.Reset();
-    while (IsAutonomous() && IsEnabled()
-        && !drivetrain::driveto(drive, dc,
-            fabs(left.GetRaw() / WHEEL_CONSTANT),
-            fabs(right.GetRaw() / WHEEL_CONSTANT), curve_p = CURVE_P, max_velocity = 0.45)) {
-      SmartDashboard::PutNumber("left", left.GetRaw() / WHEEL_CONSTANT);
-      SmartDashboard::PutNumber("right", right.GetRaw() / WHEEL_CONSTANT);
-    }
-    SmartDashboard::PutNumber("Auto_Seq", 1);
-    drive.set(0, 0);
-    left.Reset();
-    right.Reset();
-    Wait(0.5);
-    while (IsAutonomous() && IsEnabled()
-        && !drivetrain::driveto(drive, dc1, fabs(left.GetRaw() / WHEEL_CONSTANT),
-            fabs(right.GetRaw() / WHEEL_CONSTANT), curve_p = CURVE_P, max_velocity = 0.45)) {
-      SmartDashboard::PutNumber("left", left.GetRaw() / WHEEL_CONSTANT);
-      SmartDashboard::PutNumber("right", right.GetRaw() / WHEEL_CONSTANT);
-    }
-    SmartDashboard::PutNumber("Auto_Seq", 2);
-    drive.set(0, 0);
-    Wait(0.5);
-    left.Reset();
-    right.Reset();
-    SmartDashboard::PutNumber("left", left.GetRaw() / WHEEL_CONSTANT);
-    SmartDashboard::PutNumber("right", right.GetRaw() / WHEEL_CONSTANT);
-    while (IsAutonomous() && IsEnabled()
-        && !drivetrain::driveto(drive, dc2,
-            fabs(left.GetRaw() / WHEEL_CONSTANT),
-            fabs(right.GetRaw() / WHEEL_CONSTANT), curve_p = CURVE_P, max_velocity = -0.45, min_velocity = -0.3)) {
-      SmartDashboard::PutNumber("left", left.GetRaw() / WHEEL_CONSTANT);
-      SmartDashboard::PutNumber("right", right.GetRaw() / WHEEL_CONSTANT);
-    }
-    drive.set(0, 0);
-    SmartDashboard::PutNumber("Auto_Seq", 3);
-    /*
-     while (IsAutonomous() && IsEnabled() && !driveto(0, 24, .45, .4)) {
-     SmartDashboard::PutNumber("left", left.GetRaw() / WHEEL_CONSTANT);
-     SmartDashboard::PutNumber("right", right.GetRaw() / WHEEL_CONSTANT);
-     }
-     //*/
-    /*
-     drive.set(0, 0);
-     left.Reset();
-     right.Reset();
-     Wait(0.5);
-     while (IsAutonomous() && IsEnabled() && !driveto(36, 36, .45, .2)) {
-     SmartDashboard::PutNumber("left", left.GetRaw() / WHEEL_CONSTANT);
-     SmartDashboard::PutNumber("right", right.GetRaw() / WHEEL_CONSTANT);
-     }
-     drive.set(0, 0);
-     //*/
-  }
-
-  void OperatorControl() override {
-    while (IsOperatorControl() && IsEnabled()) {
-      SmartDashboard::PutNumber("left", left.GetRaw());
-      SmartDashboard::PutNumber("right", right.GetRaw());
-    }
+	  auto_run(this, drive, left, right, DRIVETRAIN_WIDTH, WHEEL_CONSTANT, CURVE_P, intake);
   }
 
   void Test() override {
+	  while(IsEnabled()){
 
+	  }
   }
+
+
 };
 
 START_ROBOT_CLASS(Robot)
