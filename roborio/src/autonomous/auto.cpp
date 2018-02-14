@@ -28,11 +28,54 @@
 		Encoder& left, Encoder& right, double axle_width, double WHEEL_CONSTANT,\
 		double CURVE_P, void (*intake_f)(double)) {VA_ITER_2(__AUTO_FUNC, (), __VA_ARGS__);VA_ITER_2(_AUTO_FUNC, (), __VA_ARGS__); EXPAND end}
 
-AUTO_FUNC(P1toSwRx, (intake_f(-.25);),
-		48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER,
-		0 * SLIPPING_MULTIPLIER, 36 * SLIPPING_MULTIPLIER,
-		-48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER
-); //TODO: switch all the functions below to this form
+AUTO_FUNC(P1toSwR, (intake_f(-.25);),
+					48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER,
+					0, 36 * SLIPPING_MULTIPLIER,
+					-48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER
+);
+AUTO_FUNC(P2toSwR, (intake_f(-.25);),
+		0, 90 * SLIPPING_MULTIPLIER
+);
+AUTO_FUNC(P3toSwR, (intake_f(-.25);),
+		-20, 90 * SLIPPING_MULTIPLIER
+);
+AUTO_FUNC(P1toSwL, (intake_f(-.25);),
+		0, 95 * SLIPPING_MULTIPLIER
+);
+AUTO_FUNC(P2toSwL, (intake_f(-.25);),
+		-48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER,
+		0, 36 * SLIPPING_MULTIPLIER,
+		48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER
+);
+
+
+void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
+		Encoder& left, Encoder& right, double axle_width, double WHEEL_CONSTANT,
+		double CURVE_P, void (*intake_f)(double)) {
+
+	P3toSwR(robot, drive, left, right, axle_width, WHEEL_CONSTANT, CURVE_P,
+			intake_f);
+
+	return;
+
+	unsigned mode = 0; // 0, 6 - Desired position left or right. 0, 3 - Switch or Scale. 1, 2, 4, 5 - Robot Position. Lower being left.
+
+	// TODO: get data from shuffleboard
+
+	MatchData::OwnedSide side = MatchData::get_owned_side(
+			MatchData::GameFeature::SWITCH_NEAR);
+	while (side == MatchData::OwnedSide::UNKNOWN)
+		if (!robot->IsAutonomous())
+			return; // Wait until driver station tells us where we are. Or quit because it won't tell us until after auto.
+	if (side == MatchData::OwnedSide::RIGHT) { // Add 6 if on the desired side is on the right
+		mode += 6;
+	}
+
+}
+
+/*
+These are old autonomous modes
+
 
 void P1toSwR(frc::RobotBase *robot, drivetrain::differential_drive& drive,
 		Encoder& left, Encoder& right, double axle_width, double WHEEL_CONSTANT,
@@ -273,49 +316,4 @@ void P3toSwL(frc::RobotBase *robot, drivetrain::differential_drive& drive,
 	left.Reset();
 	right.Reset();
 }
-
-/*
- double axle_width = 25;
- double max_speed = .45;
- double min_speed = .3;
-
- drivetrain::differential_curve dc0(36, 71, axle_width);
- drivetrain::differential_curve dc1(-103.7732365472621, 32.63610541265586, axle_width);
-
-
- while (robot->IsAutonomous() && robot->IsEnabled() && !drivetrain::driveto(drive, dc0, left.GetRaw() / WHEEL_CONSTANT, right.GetRaw() / WHEEL_CONSTANT, curve_p = CURVE_P, max_velocity = max_speed, min_velocity = min_speed)) {
-
- }
- reset();
-
- while (robot->IsAutonomous() && robot->IsEnabled() && !drivetrain::driveto(drive, dc1, left.GetRaw() / WHEEL_CONSTANT, right.GetRaw() / WHEEL_CONSTANT, curve_p = CURVE_P, max_velocity = max_speed, min_velocity = min_speed)) {
-
- }
- reset();
-
-
  */
-
-void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
-		Encoder& left, Encoder& right, double axle_width, double WHEEL_CONSTANT,
-		double CURVE_P, void (*intake_f)(double)) {
-
-	P3toSwL(robot, drive, left, right, axle_width, WHEEL_CONSTANT, CURVE_P,
-			intake_f);
-
-	return;
-
-	unsigned mode = 0; // 0, 6 - Desired position left or right. 0, 3 - Switch or Scale. 1, 2, 4, 5 - Robot Position. Lower being left.
-
-	// TODO: get data from shuffleboard
-
-	MatchData::OwnedSide side = MatchData::get_owned_side(
-			MatchData::GameFeature::SWITCH_NEAR);
-	while (side == MatchData::OwnedSide::UNKNOWN)
-		if (!robot->IsAutonomous())
-			return; // Wait until driver station tells us where we are. Or quit because it won't tell us until after auto.
-	if (side == MatchData::OwnedSide::RIGHT) { // Add 6 if on the desired side is on the right
-		mode += 6;
-	}
-
-}

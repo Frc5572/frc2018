@@ -15,10 +15,5 @@ namespace lift
 
 }
 
-extern frc::VictorSP *intake0;
-extern frc::VictorSP *intake1;
-
-extern int speedmax = 0.5;
-
 
 #endif
