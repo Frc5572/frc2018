@@ -59,8 +59,21 @@ public:
 	  intake_right.Set(0);
   }
 
-  void Autonomous() {
+  void Autonomous() override {
 	  auto_run(this, drive, left, right, DRIVETRAIN_WIDTH, WHEEL_CONSTANT, CURVE_P, intake);
+  }
+
+  void OperatorControl() override {
+	  drive.set(.6 * driver.L().second, .6 * driver.R().second);
+	  intake(.5 * (op.LT() - op.RT()));
+	  double intake_amount = op.R().second;
+	  if(intake_amount > 0 && !top.Get()){
+	  		  intake_amount = 0;
+	  }if(intake_amount < 0 && !bottom.Get()){
+			  intake_amount = 0;
+	  }
+	  intake_amount += 0.06;
+	  intake_lift.Set(intake_amount);
   }
 
   void Test() override {
