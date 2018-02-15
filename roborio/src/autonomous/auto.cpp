@@ -2,6 +2,7 @@
 #include "../drivetrain/drivetrain.h"
 #include "match_data.h"
 #include "../util/cpreprocessor.h"
+#include <WPILib.h>
 
 #define SLIPPING_MULTIPLIER .8
 
@@ -20,29 +21,49 @@
 	}\
 	SmartDashboard::PutNumber("Auto_Seq", i);\
 	drive.set(0, 0);\
-	left.Reset();\
-	right.Reset();\
-	Wait(0.5);
+	if(v1 != 0){left.Reset(); right.Reset();}\
+	Wait(0.5);\
+	if(v1 == 0){left.Reset(); right.Reset();}
 
-#define AUTO_FUNC(name, end, ...) void name(frc::RobotBase *robot, drivetrain::differential_drive& drive,\
+
+#define AUTO_FUNC(name, start, end, ...) void name(frc::RobotBase *robot, drivetrain::differential_drive& drive,\
 		Encoder& left, Encoder& right, double axle_width, double WHEEL_CONSTANT,\
-		double CURVE_P, void (*intake_f)(double)) {VA_ITER_2(__AUTO_FUNC, (), __VA_ARGS__);VA_ITER_2(_AUTO_FUNC, (), __VA_ARGS__); EXPAND end}
+		double CURVE_P, void (*intake_f)(double), bool (*lift_f)(double)) {EXPAND start;\
+left.Reset();\
+right.Reset();\
+VA_ITER_2(__AUTO_FUNC, (), __VA_ARGS__);VA_ITER_2(_AUTO_FUNC, (), __VA_ARGS__); EXPAND end}
 
-AUTO_FUNC(P1toSwR, (intake_f(-.25);),
+AUTO_FUNC(P1toSwR, (), (intake_f(-.25);),
 					48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER,
 					0, 36 * SLIPPING_MULTIPLIER,
 					-48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER
 );
-AUTO_FUNC(P2toSwR, (intake_f(-.25);),
+
+AUTO_FUNC(P2toSwR, (), (intake_f(-.25);),
 		0, 90 * SLIPPING_MULTIPLIER
 );
-AUTO_FUNC(P3toSwR, (intake_f(-.25);),
+
+AUTO_FUNC(P3toSwR, (), (intake_f(-.25);),
 		-20, 90 * SLIPPING_MULTIPLIER
 );
-AUTO_FUNC(P1toSwL, (intake_f(-.25);),
+
+AUTO_FUNC(P3toScR, (std::thread t([&](){
+	frc::Timer timer;
+	timer.Start();
+	while(timer.Get() < 13){
+		if(lift_f(0.25)) break;
+	}
+	lift_f(0.0);
+});), (t.join();),
+		0, 0//180 * SLIPPING_MULTIPLIER,
+		//-7 * SLIPPING_MULTIPLIER, 45 * SLIPPING_MULTIPLIER
+);
+
+AUTO_FUNC(P1toSwL, (), (intake_f(-.25);),
 		0, 95 * SLIPPING_MULTIPLIER
 );
-AUTO_FUNC(P2toSwL, (intake_f(-.25);),
+
+AUTO_FUNC(P2toSwL, (), (intake_f(-.25);),
 		-48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER,
 		0, 36 * SLIPPING_MULTIPLIER,
 		48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER
@@ -51,10 +72,20 @@ AUTO_FUNC(P2toSwL, (intake_f(-.25);),
 
 void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
 		Encoder& left, Encoder& right, double axle_width, double WHEEL_CONSTANT,
-		double CURVE_P, void (*intake_f)(double)) {
+		double CURVE_P, void (*intake_f)(double), bool (*lift_f)(double)) {
 
-	P3toSwR(robot, drive, left, right, axle_width, WHEEL_CONSTANT, CURVE_P,
-			intake_f);
+	//P3toScR(robot, drive, left, right, axle_width, WHEEL_CONSTANT, CURVE_P,
+	//		intake_f, lift_f);
+
+	std::thread t([&](){
+		frc::Timer t;
+		t.Start();
+		while(t.Get() < 8){
+			if(lift_f(0.25)) break;
+		}
+		lift_f(0.0);
+	});
+	t.join();
 
 	return;
 
