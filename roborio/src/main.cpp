@@ -67,7 +67,8 @@ public:
 	void OperatorControl() override {
 		while (IsOperatorControl() && IsEnabled()) {
 			drive.set(.6 * driver.L().second, .6 * driver.R().second);
-			intake(.5 * (op.LT() - op.RT()));
+			intake_left.Set(.5 * (op.LT() - op.RT()));
+			intake_left.Set(-.5 * (op.LT() - op.RT()));
 			double intake_amount = op.R().second;
 			if (intake_amount > 0 && !top.Get()) {
 				intake_amount = 0;
