@@ -11,4 +11,6 @@
  */
 void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive, Encoder& left, Encoder& right, double axle_width, double WHEEL_CONSTANT, double CURVE_P, void (*intake_f)(double), bool (*lift_f)(double));
 
+void auto_setup();
+
 #endif

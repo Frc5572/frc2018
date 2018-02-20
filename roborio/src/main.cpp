@@ -27,10 +27,10 @@ void cameraThread() {
 	}
 }
 
-VictorSP intake_left { 5 }, intake_right { 4 }, intake_lift { 3 };
-DigitalInput top { 5 }, bottom { 4 };
-
-double lift_speed = 0;
+VictorSP intake_left { 5 }, intake_right { 4 }, intake_lift { 3 },
+		climber { 2 };
+bool can_down = false;
+DigitalInput top { 5 }, bottom { 4 }, ctop { 6 };
 
 class Robot: public frc::SampleRobot {
 public:
@@ -46,6 +46,7 @@ public:
 	void RobotInit() {
 		std::thread t(cameraThread);
 		t.detach();
+		auto_setup();
 	}
 
 #define WHEEL_CONSTANT 155.15686 // at 51", encoders read (8105, 7961, 7909, 7828, 8079, 7847, 7874, 7701)
@@ -62,11 +63,10 @@ public:
 	}
 
 	static bool lift(double ia) {
-		lift_speed = lift_speed + (ia - lift_speed) * .1;
-		double intake_amount = lift_speed;
-		SmartDashboard::PutBoolean("top", !top.Get());
-		SmartDashboard::PutBoolean("bottom",  !bottom.Get());
-		if (intake_amount > 0 && !top.Get()) {
+		double intake_amount = ia;
+		SmartDashboard::PutBoolean("top", top.Get());
+		SmartDashboard::PutBoolean("bottom", !bottom.Get());
+		if (intake_amount > 0 && top.Get()) {
 			intake_amount = 0;
 		}
 		intake_amount += 0.06;
@@ -74,27 +74,47 @@ public:
 			intake_amount = 0;
 		}
 		intake_lift.Set(intake_amount);
-		return !top.Get() || !bottom.Get();
+		return top.Get() && bottom.Get(); // || !bottom.Get();
+	}
+
+	static bool climb(double c, bool t) {
+		double intake_amount = c;
+		SmartDashboard::PutBoolean("ctop", !ctop.Get());
+		SmartDashboard::PutNumber("climb", c);
+		if (intake_amount < 0 && !ctop.Get()) {
+			intake_amount = 0;
+			can_down = true;
+		}
+		if(t)
+		if (intake_amount > 0 && !can_down) {
+			intake_amount = 0;
+		}
+		climber.Set(intake_amount);
+		return !ctop.Get(); // || !bottom.Get();
 	}
 
 	void Autonomous() override {
-		auto_run(this, drive, left, right, DRIVETRAIN_WIDTH, WHEEL_CONSTANT,
-		CURVE_P, intake, lift);
+		auto_run(this, drive, left, right, DRIVETRAIN_WIDTH, WHEEL_CONSTANT, CURVE_P, intake, lift);
 	}
 
 	void OperatorControl() override {
+		can_down = false;
 		while (IsOperatorControl() && IsEnabled()) {
-			drive.set(.6 * driver.L().second, .6 * driver.R().second);
+			double mul = .6 + .25 * driver.RT();
+			drive.set(mul * driver.L().second, mul * driver.R().second);
 			intake_left.Set(.5 * (op.LT() - op.RT()));
 			intake_right.Set(-.5 * (op.LT() - op.RT()));
 			double intake_amount = -op.R().second;
-			lift(intake_amount);
+			lift(.4 * intake_amount);
+			climb(.8 * op.L().second, true);
 		}
 	}
 
 	void Test() override {
-		while (IsEnabled()) {
-
+		while (IsTest() && IsEnabled()) {
+			double intake_amount = -op.R().second;
+			lift(.4 * intake_amount);
+			climb(.8 * op.L().second, false);
 		}
 	}
 
