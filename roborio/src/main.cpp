@@ -51,7 +51,7 @@ public:
 
 #define WHEEL_CONSTANT 155.15686 // at 51", encoders read (8105, 7961, 7909, 7828, 8079, 7847, 7874, 7701)
 #define DRIVETRAIN_WIDTH 20.5
-#define CURVE_P .5
+#define CURVE_P .9
 #define SLIPPING_MULTIPLIER .8
 
 	static void intake(double d) {
@@ -66,6 +66,7 @@ public:
 		double intake_amount = ia;
 		SmartDashboard::PutBoolean("top", top.Get());
 		SmartDashboard::PutBoolean("bottom", !bottom.Get());
+		SmartDashboard::PutNumber("ia", ia);
 		if (intake_amount > 0 && top.Get()) {
 			intake_amount = 0;
 		}
