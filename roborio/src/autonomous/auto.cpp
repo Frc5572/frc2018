@@ -5,11 +5,20 @@
 #include <WPILib.h>
 
 #define SLIPPING_MULTIPLIER .8
+//#define SLIPPING_MULTIPLIER .67
 
 #define MAX_VELOCITY .45
 #define MIN_VELOCITY .4
 
-#define __AUTO_FUNC(i, k, v1, v2) drivetrain::differential_curve PRIMITIVE_CAT(dc, i)(v1, v2, axle_width);
+#define OUTTAKE_V -.25
+#define LIFT_START_V 0.2
+#define LIFT_V 0.4
+/*
+#define OUTTAKE_V -0.4
+#define LIFT_START_V 0.2
+#define LIFT_V 0.4
+*/
+#define __AUTO_FUNC(i, k, v1, v2) drivetrain::differential_curve PRIMITIVE_CAT(dc, i)(v1, v2 > 0 ? v2 : -v2, axle_width);
 
 #define _AUTO_FUNC(i, k, v1, v2) while (robot->IsAutonomous() && robot->IsEnabled()\
 			&& !drivetrain::driveto(drive, PRIMITIVE_CAT(dc, i), \
@@ -32,72 +41,120 @@ left.Reset();\
 right.Reset();\
 VA_ITER_2(__AUTO_FUNC, (), __VA_ARGS__);VA_ITER_2(_AUTO_FUNC, (), __VA_ARGS__); EXPAND end}
 
-AUTO_FUNC(P1toSwR, (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 3) {
+/*
 
-	if(timer.Get() > 1.5){ if(lift_f(0.4)) break; } else { lift_f(0.1); }
+ AUTO_FUNC(P1toSwR,
+ (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 3) {
 
-	} lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); });), (intake_f(-.25); t.join();), 48.5 * SLIPPING_MULTIPLIER,
+ if(timer.Get() > 1.5){ if(lift_f(LIFT_V)) break; } else { lift_f(LIFT_START_V); }
+
+ } lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
+ (intake_f(OUTTAKE_V); t.join();), 48.5 * SLIPPING_MULTIPLIER,
+ 48.5 * SLIPPING_MULTIPLIER, 0, 36 * SLIPPING_MULTIPLIER,
+ -48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER);
+
+ AUTO_FUNC(P2toSwR, (), (intake_f(OUTTAKE_V);), 0, 90 * SLIPPING_MULTIPLIER);
+
+ AUTO_FUNC(P3toSwR, (), (intake_f(OUTTAKE_V);), -20, 90 * SLIPPING_MULTIPLIER);
+
+ AUTO_FUNC(P1toScL2,
+ (),
+ (), 0 * SLIPPING_MULTIPLIER,
+ -20 * SLIPPING_MULTIPLIER);
+
+ AUTO_FUNC(P1toScL,
+ (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 13) { if(timer.Get() > 3){ if(lift_f(LIFT_V)) break; } else { lift_f(0.2); } } lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
+ (t.join();intake_f(OUTTAKE_V);P1toScL2(robot, drive, left, right, axle_width, WHEEL_CONSTANT, CURVE_P, intake_f, lift_f);), -20.0 * SLIPPING_MULTIPLIER,
+ 48.5 * SLIPPING_MULTIPLIER, 20.5 * SLIPPING_MULTIPLIER,
+ 48.5 * SLIPPING_MULTIPLIER, 0, 50 * SLIPPING_MULTIPLIER,
+ 40 * SLIPPING_MULTIPLIER, 105 * SLIPPING_MULTIPLIER);
+
+ AUTO_FUNC(P3toScR2,
+ (),
+ (), 0 * SLIPPING_MULTIPLIER,
+ -20 * SLIPPING_MULTIPLIER);
+
+ AUTO_FUNC(P3toScR,
+ (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 13) { if(timer.Get() > 3){ if(lift_f(LIFT_V)) break; } else { lift_f(0.2); } } lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
+ (t.join();intake_f(OUTTAKE_V);P1toScL2(robot, drive, left, right, axle_width, WHEEL_CONSTANT, CURVE_P, intake_f, lift_f);),
+ 0, 147.0 * SLIPPING_MULTIPLIER,
+ -40 * SLIPPING_MULTIPLIER, 105 * SLIPPING_MULTIPLIER);
+
+ AUTO_FUNC(P1toScR3, (), (intake_f(OUTTAKE_V);), -30 * SLIPPING_MULTIPLIER,
+ 20 * SLIPPING_MULTIPLIER, -2 * SLIPPING_MULTIPLIER,
+ 3 * SLIPPING_MULTIPLIER);
+
+ AUTO_FUNC(P1toScR2,
+ (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 8) { if(lift_f(LIFT_V)) break; } lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
+ (t.join(); P1toScR3(robot, drive, left, right, axle_width, WHEEL_CONSTANT, CURVE_P, intake_f, lift_f);),
+ 0, 130 * SLIPPING_MULTIPLIER);
+
+ AUTO_FUNC(P1toScR,
+ (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 1.5) { lift_f(LIFT_START_V); } lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
+ (t.join();P1toScR2(robot, drive, left, right, axle_width, WHEEL_CONSTANT, CURVE_P, intake_f, lift_f);),
+ -20.0 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER,
+ 20.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER, 0,
+ 80 * SLIPPING_MULTIPLIER, 19.7 * SLIPPING_MULTIPLIER,
+ 20 * SLIPPING_MULTIPLIER);
+
+ AUTO_FUNC(P1toSwL, (), (intake_f(OUTTAKE_V);), 0, 95 * SLIPPING_MULTIPLIER);
+
+ AUTO_FUNC(P2toSwL, (), (intake_f(OUTTAKE_V);), -48.5 * SLIPPING_MULTIPLIER,
+ 48.5 * SLIPPING_MULTIPLIER, 0, 36 * SLIPPING_MULTIPLIER,
+ 48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER);
+
+ */
+
+/* Switch Left */
+
+AUTO_FUNC(P1toSwL, (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 2) {
+
+	if(timer.Get() > 1.5){ if(lift_f(LIFT_V)) break; } else { lift_f(LIFT_START_V); }
+
+	} lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); }); t.join();), (intake_f(OUTTAKE_V);), 20, 90 * SLIPPING_MULTIPLIER);
+
+AUTO_FUNC(P2toSwL,
+		(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 4) {
+
+		if(timer.Get() > 1.5){ lift_f(LIFT_V); } else { lift_f(LIFT_START_V); }
+
+		} lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
+		(Wait(.4);intake_f(OUTTAKE_V);t.join();), -50 * SLIPPING_MULTIPLIER,
+		50 * SLIPPING_MULTIPLIER, 0, 30 * SLIPPING_MULTIPLIER,
+		25 * SLIPPING_MULTIPLIER, 25 * SLIPPING_MULTIPLIER, 0, 25 * SLIPPING_MULTIPLIER);
+
+AUTO_FUNC(Straight, (), (), 0, 100 * SLIPPING_MULTIPLIER); // Warning: This doesn't actually go to the switch.
+
+/* Switch Right */
+
+AUTO_FUNC(P1toSwR,
+		(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 3) {
+		if(timer.Get() > 1.5){ if(lift_f(LIFT_V)) break; } else { lift_f(LIFT_START_V); }
+		} lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
+		(intake_f(OUTTAKE_V); t.join();), 48.5 * SLIPPING_MULTIPLIER,
 		48.5 * SLIPPING_MULTIPLIER, 0, 36 * SLIPPING_MULTIPLIER,
 		-48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER);
 
-AUTO_FUNC(P2toSwR, (), (intake_f(-.25);), 0, 90 * SLIPPING_MULTIPLIER);
+AUTO_FUNC(P2toSwR, (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 4) {
+	if(timer.Get() > 1.5){ lift_f(LIFT_V); } else { lift_f(LIFT_START_V); }
+	} lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); }); t.join();), (intake_f(OUTTAKE_V);), 0, 100 * SLIPPING_MULTIPLIER);
 
-AUTO_FUNC(P3toSwR, (), (intake_f(-.25);), -20, 90 * SLIPPING_MULTIPLIER);
+AUTO_FUNC(P3toSwR, (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 4) {
+	if(timer.Get() > 1.5){ if(lift_f(LIFT_V)) break; } else { lift_f(LIFT_START_V); }
+	} lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); }); t.join();), (intake_f(OUTTAKE_V);), -20, 90 * SLIPPING_MULTIPLIER);
 
-AUTO_FUNC(P3toScR,
-		(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 8) {
-
-		if(timer.Get() > 3){ if(lift_f(0.4)) break; } else { lift_f(0.1); }
-
-		} lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
-		(t.join();intake_f(-.25);), 0, 0 //180 * SLIPPING_MULTIPLIER,
-		//-7 * SLIPPING_MULTIPLIER, 45 * SLIPPING_MULTIPLIER
-		);
-
-AUTO_FUNC(P1toScL,
-		(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 8) { if(timer.Get() > 1.5){ if(lift_f(0.4)) break; } else { lift_f(0.1); } } lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
-		(t.join();intake_f(-.25);), -17.0 * SLIPPING_MULTIPLIER,
-		48.5 * SLIPPING_MULTIPLIER, 17.0 * SLIPPING_MULTIPLIER,
-		48.5 * SLIPPING_MULTIPLIER, 0, 50 * SLIPPING_MULTIPLIER, 40 * SLIPPING_MULTIPLIER,
-		105 * SLIPPING_MULTIPLIER);
-
-AUTO_FUNC(P1toScR2,
-				(Wait(1.0);),
-				(intake_f(-.25);),
-				-20 * SLIPPING_MULTIPLIER, 20 * SLIPPING_MULTIPLIER,
-				-2 * SLIPPING_MULTIPLIER, 10 * SLIPPING_MULTIPLIER);
-
-AUTO_FUNC(P1toScR,
-				(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 8) { if(timer.Get() > 1.5){ if(lift_f(0.4)) break; } else { lift_f(0.1); } } lift_f(0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
-				(t.join();P1toScR2(robot, drive, left, right, axle_width, WHEEL_CONSTANT, CURVE_P,
-						intake_f, lift_f);),
-				-17.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER,
-				19.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER,
-				 0, 80 * SLIPPING_MULTIPLIER,
-					30 * SLIPPING_MULTIPLIER, 20 * SLIPPING_MULTIPLIER,
-					0, 140 * SLIPPING_MULTIPLIER);
-
-AUTO_FUNC(P1toSwL, (), (intake_f(-.25);), 0, 95 * SLIPPING_MULTIPLIER);
-
-AUTO_FUNC(P2toSwL, (), (intake_f(-.25);), -48.5 * SLIPPING_MULTIPLIER,
-		48.5 * SLIPPING_MULTIPLIER, 0, 36 * SLIPPING_MULTIPLIER,
-		48.5 * SLIPPING_MULTIPLIER, 48.5 * SLIPPING_MULTIPLIER);
-
-SendableChooser<uint8_t> * sc = new SendableChooser<uint8_t>();
-SendableChooser<uint8_t> * sd = new SendableChooser<uint8_t>();
+std::string current_auto = "";
 
 void auto_setup() {
-	sc->AddObject("Left", 0);
-	sc->AddObject("Middle", 1);
-	sc->AddObject("Right", 2);
-	SmartDashboard::PutData(sc);
-	sd->AddObject("Switch", 0);
-	sd->AddObject("Scale", 1);
-	SmartDashboard::PutData(sd);
+	while(SmartDashboard::GetString("Starting Position", "") != "")
+		SmartDashboard::PutString("Starting Position", "");
 	std::thread t(
 			[&]() {
-				while(true)
-				SmartDashboard::PutString("", std::string((sc->GetSelected() == 0 ? "Left" : (sc->GetSelected() == 1 ? "Middle" : "Right"))) + std::string(" ") + std::string(sc->GetSelected() == 0 ? "Switch" : "Scale"));
+				while(true) {
+					current_auto = SmartDashboard::GetString("Starting Position", "");
+					if(current_auto.length() > 1)
+						SmartDashboard::PutString("Auto Preference", std::string(current_auto[0] == '1' ? "Left" : (current_auto[0] == '2' ? "Middle" : "Right")));;
+				}
 			});
 	t.detach();
 }
@@ -106,15 +163,13 @@ void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
 		Encoder& left, Encoder& right, double axle_width, double WHEEL_CONSTANT,
 		double CURVE_P, void (*intake_f)(double), bool (*lift_f)(double)) {
 
-	P1toSwL(robot, drive, left, right, axle_width, WHEEL_CONSTANT, CURVE_P,
-			intake_f, lift_f);
-
-	return;
-
 	uint8_t mode[4];
 
-	mode[0] = sc->GetSelected();
-	mode[1] = sd->GetSelected();
+	mode[0] = current_auto[0] == '1' ? 0 : (current_auto[0] == '3' ? 2 : 1);
+	mode[1] = 0;
+
+	SmartDashboard::PutString("Starting Position", "");
+
 	while (MatchData::get_owned_side(MatchData::GameFeature::SWITCH_NEAR)
 			== MatchData::OwnedSide::UNKNOWN)
 		if (!robot->IsAutonomous())
@@ -124,13 +179,13 @@ void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
 	mode[3] = static_cast<uint8_t>(MatchData::get_owned_side(
 			MatchData::GameFeature::SCALE));
 
-	if (mode[1] == 0) { // Switch
+	//if (mode[1] == 0) { // Switch
 		if (mode[0] == 0) { // Left
 			if (mode[2] == static_cast<uint8_t>(MatchData::OwnedSide::LEFT)) {
-				P1toSwL(robot, drive, left, right, axle_width, WHEEL_CONSTANT,
+				Straight(robot, drive, left, right, axle_width, WHEEL_CONSTANT,
 						CURVE_P, intake_f, lift_f);
 			} else {
-				P1toSwR(robot, drive, left, right, axle_width, WHEEL_CONSTANT,
+				Straight(robot, drive, left, right, axle_width, WHEEL_CONSTANT,
 						CURVE_P, intake_f, lift_f);
 			}
 		} else if (mode[0] == 1) { // Middle
@@ -144,32 +199,35 @@ void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
 			}
 		} else { // Right
 			if (mode[2] == static_cast<uint8_t>(MatchData::OwnedSide::LEFT)) {
-				//TODO
+				Straight(robot, drive, left, right, axle_width, WHEEL_CONSTANT,
+						CURVE_P, intake_f, lift_f);
 			} else {
 				P3toSwR(robot, drive, left, right, axle_width, WHEEL_CONSTANT,
 						CURVE_P, intake_f, lift_f);
 			}
 		}
-	} else { // Scale
-		if (mode[0] == 0) { // Left
-			if (mode[2] == static_cast<uint8_t>(MatchData::OwnedSide::LEFT)) {
-				P1toScL(robot, drive, left, right, axle_width, WHEEL_CONSTANT,
-						CURVE_P, intake_f, lift_f);
-			} else {
+	//}
+	/*else { // Scale
+	 if (mode[0] == 0) { // Left
+	 if (mode[2] == static_cast<uint8_t>(MatchData::OwnedSide::LEFT)) {
+	 P1toScL(robot, drive, left, right, axle_width, WHEEL_CONSTANT,
+	 CURVE_P, intake_f, lift_f);
+	 } else {
 
-			}
-		} else if (mode[0] == 1) { // Middle
-			goto middle;
-			// Placeholder
-		} else { // Right
-			if (mode[2] == static_cast<uint8_t>(MatchData::OwnedSide::LEFT)) {
+	 }
+	 } else if (mode[0] == 1) { // Middle
+	 goto middle;
+	 // Placeholder
+	 } else { // Right
+	 if (mode[2] == static_cast<uint8_t>(MatchData::OwnedSide::LEFT)) {
 
-			} else {
-				P3toScR(robot, drive, left, right, axle_width, WHEEL_CONSTANT,
-						CURVE_P, intake_f, lift_f);
-			}
-		}
-	}
+	 } else {
+	 P3toScR(robot, drive, left, right, axle_width, WHEEL_CONSTANT,
+	 CURVE_P, intake_f, lift_f);
+	 }
+	 }
+	 }
+	 */
 }
 
 /*
@@ -226,7 +284,7 @@ void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
  left.Reset();
  right.Reset();
  Wait(0.5);
- intake_f(-.25);
+ intake_f(OUTTAKE_V);
  }
 
  void P1toSwL(frc::RobotBase *robot, drivetrain::differential_drive& drive,
@@ -248,7 +306,7 @@ void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
  left.Reset();
  right.Reset();
  Wait(0.5);
- intake_f(-.25);
+ intake_f(OUTTAKE_V);
  }
 
  void P2toSwL(frc::RobotBase *robot, drivetrain::differential_drive& drive,
@@ -301,7 +359,7 @@ void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
  left.Reset();
  right.Reset();
  Wait(0.5);
- intake_f(-.25);
+ intake_f(OUTTAKE_V);
  }
 
  void P2toSwR(frc::RobotBase *robot, drivetrain::differential_drive& drive,
@@ -323,7 +381,7 @@ void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
  left.Reset();
  right.Reset();
  Wait(0.5);
- intake_f(-.25);
+ intake_f(OUTTAKE_V);
  }
 
  void P3toSwR(frc::RobotBase *robot, drivetrain::differential_drive& drive,
