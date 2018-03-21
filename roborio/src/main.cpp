@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <fstream>
 
 #include <SampleRobot.h>
 #include <SmartDashboard/SmartDashboard.h>
@@ -14,6 +15,8 @@
 #include "input/controller.h"
 #include "util/cpreprocessor.h"
 #include "autonomous/auto.h"
+
+#include "autonomous/auto_follower.h"
 
 void cameraThread() {
   cs::UsbCamera camera = cs::UsbCamera("default_cam", 0);
@@ -50,9 +53,11 @@ public:
   }
 
 
-#define WHEEL_CONSTANT 155.15686 // at 51", encoders read (8105, 7961, 7909, 7828, 8079, 7847, 7874, 7701)
-#define DRIVETRAIN_WIDTH 20.5
-//#define DRIVETRAIN_WIDTH 17.0
+#define WHEEL_CONSTANT 155.15686// at 51", encoders read (8105, 7961, 7909, 7828, 8079, 7847, 7874, 7701)
+#define WHEEL_CONSTANT_L 154.1568627451
+#define WHEEL_CONSTANT_R 155.681372549
+//#define DRIVETRAIN_WIDTH 20.5
+#define DRIVETRAIN_WIDTH 19.5
 #define CURVE_P .5
 #define SLIPPING_MULTIPLIER .8
 
@@ -64,12 +69,12 @@ public:
     intake_right.Set(0);
   }
 
-  static bool lift(double ia) {
+  static bool lift(bool b, double ia) {
     double intake_amount = ia;
     SmartDashboard::PutBoolean("top", top.Get());
     SmartDashboard::PutBoolean("bottom", !bottom.Get());
     SmartDashboard::PutNumber("ia", ia);
-    if (intake_amount > 0 && top.Get()) {
+    if (b && intake_amount > 0 && top.Get()) {
       intake_amount = 0;
     }
     intake_amount += 0.06; // TODO: Change back to 0.06
@@ -102,16 +107,25 @@ public:
 
   void OperatorControl() override {
     can_down = false;
+    auto_follower::Position_Tracker pt { DRIVETRAIN_WIDTH };
+    std::ofstream outfile {"/home/lvuser/data.dat", std::ios_base::app};
+    double last_left = 0, last_right = 0;
     while (IsOperatorControl() && IsEnabled()) {
+      double now_left = left.Get() / WHEEL_CONSTANT_L;
+      double now_right = right.Get() / WHEEL_CONSTANT_R;
+      pt.update(now_left - last_left, now_right - last_right);
+      last_left = now_left;
+      last_right = now_right;
+      outfile << pt.get_state().x << " " << pt.get_state().y << " " << pt.get_state().theta << std::endl;
       double mul = .4 + .25 * (1.0 - driver.LT()) + .25 * driver.RT();
       drive.set(mul * driver.L().second, mul * driver.R().second);
       intake_left.Set(.5 * (op.LT() - op.RT()));
       intake_right.Set(-.5 * (op.LT() - op.RT()));
       double intake_amount = -op.R().second;
-      lift(intake_amount > 0 ? .6 * intake_amount : .6 * intake_amount);
+      lift(true, intake_amount > 0 ? 1.0 * intake_amount : .8 * intake_amount);
       climb(.8 * op.L().second, true);
-      SmartDashboard::PutNumber("left", left.GetRaw() / WHEEL_CONSTANT);
-      SmartDashboard::PutNumber("right", right.GetRaw() / WHEEL_CONSTANT);
+      SmartDashboard::PutNumber("left", left.GetRaw());
+      SmartDashboard::PutNumber("right", right.GetRaw());
     }
   }
 
