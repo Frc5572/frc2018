@@ -1,5 +1,5 @@
 
-#define __AUTO_FUNC(i, k, v1, v2) drivetrain::differential_curve PRIMITIVE_CAT(dc, i)(v1, v2 > 0 ? v2 : -v2, axle_width);
+#define __AUTO_FUNC(i, k, v1, v2) drivetrain::differential_curve PRIMITIVE_CAT(dc, i)(v1 * SLIPPING_MULTIPLIER, v2 > 0 ? v2 * SLIPPING_MULTIPLIER : -v2 * SLIPPING_MULTIPLIER, axle_width);
 
 #define _AUTO_FUNC(i, k, v1, v2) while (robot->IsAutonomous() && robot->IsEnabled()\
 			&& !drivetrain::driveto(drive, PRIMITIVE_CAT(dc, i), \
@@ -17,7 +17,7 @@
 
 #define AUTO_FUNC(name, start, end, ...) void name(frc::RobotBase *robot, drivetrain::differential_drive& drive,\
 		Encoder& left, Encoder& right, double axle_width, double WHEEL_CONSTANT,\
-		double CURVE_P, void (*intake_f)(double), bool (*lift_f)(bool, double)) {EXPAND start;\
+		double CURVE_P, void (*intake_f)(double, double), bool (*lift_f)(bool, double)) {EXPAND start;\
 left.Reset();\
 right.Reset();\
 VA_ITER_2(__AUTO_FUNC, (), __VA_ARGS__);VA_ITER_2(_AUTO_FUNC, (), __VA_ARGS__); EXPAND end}

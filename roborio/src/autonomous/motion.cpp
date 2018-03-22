@@ -10,9 +10,9 @@ unsigned test = 0;
 
 bool drivetrain::detail::driveto(drivetrain::differential_drive& drive, drivetrain::differential_curve& dc, double maxV, double minV, double ldist, double rdist, double curve_p) {
 	if(dc() == 1){
-		double error = (ldist - rdist) * curve_p;
+		double error = (maxV > 0.0 ? 1.0 : -1.0 ) * (ldist - rdist) * curve_p;
 		drive.set(maxV - error, maxV + error);
-		if(ldist >= dc.length() && error < 1.0) return true;
+		if(fabs(ldist) >= dc.length() && error < 1.0) return true;
 		return false;
 	}
 	double long_edge_dist  = fabs(dc.left() ? ldist : rdist);

@@ -61,10 +61,10 @@ public:
 #define CURVE_P .5
 #define SLIPPING_MULTIPLIER .8
 
-  static void intake(double d) {
+  static void intake(double d, double t) {
     intake_left.Set(d);
     intake_right.Set(-d);
-    Wait(2.0);
+    Wait(t);
     intake_left.Set(0);
     intake_right.Set(0);
   }
