@@ -81,6 +81,7 @@
       case GameFeature::SWITCH_FAR:
         return "SWITCH_FAR";
       }
+      return "ERROR";
     }
 
     /*!

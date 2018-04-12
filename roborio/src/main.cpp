@@ -54,11 +54,11 @@ public:
 
 
 #define WHEEL_CONSTANT 155.15686// at 51", encoders read (8105, 7961, 7909, 7828, 8079, 7847, 7874, 7701)
-#define WHEEL_CONSTANT_L 154.1568627451
-#define WHEEL_CONSTANT_R 155.681372549
-//#define DRIVETRAIN_WIDTH 20.5
-#define DRIVETRAIN_WIDTH 19.5
-#define CURVE_P .5
+#define WHEEL_CONSTANT_L 156.608333
+#define WHEEL_CONSTANT_R 154.601667
+#define DRIVETRAIN_WIDTH 22.5
+//#define DRIVETRAIN_WIDTH 19.5
+#define CURVE_P .3
 #define SLIPPING_MULTIPLIER .8
 
   static void intake(double d, double t) {
