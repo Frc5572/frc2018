@@ -30,28 +30,28 @@ AUTO_FUNC(P2toSwL5, .4, (),
 
 AUTO_FUNC(P2toSwL4, .4, (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 2.0) { lift_f(true, LIFT_V); } lift_f(true, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
 		(t.join();),(t.join(); P2toSwL5(ALL_THE_VARS);),
-		25, -25,
-		0, -10)
+		0, -20,
+		10, -20)
 
-AUTO_FUNC(P2toSwL3, .55, (),
-		(),(drive.set(-.5, -.5);intake_f(-3.0 * (OUTTAKE_V),2.0);drive.set(0, 0); P2toSwL4(ALL_THE_VARS);),
-		20, 20,
-		0, 10)
+AUTO_FUNC(P2toSwL3, .45, (),
+		(),(drive.set(-.2, -.2); intake_f(-3.0*OUTTAKE_V,0.8); intake_f(-3.0*OUTTAKE_V,0.8); P2toSwL4(ALL_THE_VARS);),
+		20, 40)
 
-AUTO_FUNC(P2toSwL2, .4, (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 2.0) { lift_f(true, -LIFT_V); } lift_f(true, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
+AUTO_FUNC(P2toSwL2, .45, (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 2.0) { lift_f(true, -LIFT_V); } lift_f(true, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
 		(t.join();),(t.join(); Wait(0.1);P2toSwL3(ALL_THE_VARS);),
-		0, -45)
+		0, -65)
 
-CLOTH_FUNC(P2toSwL, .34,
+AUTO_FUNC(P2toSwL, .6,
 		(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 2.5) {
 
 		if(timer.Get() > 1.5){ lift_f(false, LIFT_V); } else { lift_f(false, LIFT_START_V); }
 
 		} lift_f(false, 0.0); SmartDashboard::PutNumber("Auto Seq",1); }); Wait(1.0);),
 		(t.join();),(t.join();drive.set(-.35, -.35);Wait(.1);intake_f(OUTTAKE_V,0.8);Wait(.8);drive.set(0, 0);P2toSwL2(ALL_THE_VARS);),
-		-40, 20,
-		40, 20,
-		0, 65);
+		-30, 30,
+		5, 40,
+		30, 30,
+		0, 30);
 
 
 AUTO_FUNC(P2toSwR7,.45,  (), (), (drive.set(-.4, -.4); Wait(.25); intake_f(OUTTAKE_V,0.8);),
