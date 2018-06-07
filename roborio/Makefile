@@ -24,8 +24,11 @@ dirs :
 Debug/%.o : %.cpp
 	$(CXX) -c -o $@ $< $(CPPFLAGS)
 
-deploy :
+deploy : auto
 	@ant
+
+auto :
+	scp $(PWD)/auto.dat admin@roborio-5572-frc.local:/home/lvuser/auto.dat 
 
 clean:
 	@for dir in src; do find $$dir -name \*.o -exec $(RMCOMMAND) {} \; ; done

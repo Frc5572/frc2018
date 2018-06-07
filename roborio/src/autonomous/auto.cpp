@@ -16,13 +16,16 @@
 #define LIFT_START_V 0.3
 #define LIFT_V 0.8
 
+// #define AVOID_SCALE_BOT
+
+
 #include "autotools.h"
 
 /*
  *  AUTO MODE DEFINITIONS
  */
 
-AUTO_FUNC(Straight, .45, (),(), (), 0, 100);
+AUTO_FUNC(Straight, .45, (),(), (), 0, 140);
 
 AUTO_FUNC(P2toSwL5, .4, (),
 		(),(intake_f(2.0 * (OUTTAKE_V), .4);),
@@ -41,7 +44,7 @@ AUTO_FUNC(P2toSwL2, .45, (std::thread t([&]() { frc::Timer timer; SmartDashboard
 		(t.join();),(t.join(); Wait(0.1);P2toSwL3(ALL_THE_VARS);),
 		0, -65)
 
-AUTO_FUNC(P2toSwL, .6,
+AUTO_FUNC(P2toSwL, .45,
 		(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 2.5) {
 
 		if(timer.Get() > 1.5){ lift_f(false, LIFT_V); } else { lift_f(false, LIFT_START_V); }
@@ -77,13 +80,19 @@ AUTO_FUNC(P2toSwR,.45,
 		0, 65);
 
 AUTO_FUNC(P3toSwR3, .45, (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 2.0) { lift_f(true, -LIFT_V); } lift_f(true, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
-		(t.join();),(t.join(); Wait(.2); drive.set(-.3, -.3); intake_f(-3.0*OUTTAKE_V,0.9); drive.set(.25, .25); intake_f(-3.0*OUTTAKE_V,0.4);drive.set(0, 0);
+		(t.join();),(t.join(); Wait(.2); drive.set(-.3, -.3); intake_f(-3.0*OUTTAKE_V,0.9); drive.set(.25, -.25); intake_f(-3.0*OUTTAKE_V,0.4);drive.set(0, 0);
 std::thread t2([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 1.5) { lift_f(true, LIFT_V); } lift_f(true, 0.0); SmartDashboard::PutNumber("Auto Seq",1); }); t2.join(); drive.set(-.25, -.45); Wait(.7); intake_f(OUTTAKE_V,0.8);drive.set(0, 0);),
 		15, -15,
 		0, -50,
 		12.5, 30)
 
-AUTO_FUNC(P3toSwR2,.45,  (), (), (drive.set(-.3, -.3); intake_f(OUTTAKE_V,0.8); P3toSwR3(ALL_THE_VARS);),
+AUTO_FUNC(P3toSwR2,.45,  (), (), (drive.set(-.25, -.5); Wait(.5);intake_f(OUTTAKE_V,0.8);
+#ifdef AVOID_SCALE_BOT
+if(MatchData::get_owned_side(MatchData::GameFeature::SCALE)
+				== MatchData::OwnedSide::LEFT)
+#endif
+	P3toSwR3(ALL_THE_VARS);
+),
 		-15, 15)
 
 AUTO_FUNC(P3toSwR,.45,
@@ -106,11 +115,17 @@ AUTO_FUNC(P3toScR2,.65,
 		-19, 30
 		);
 
+AUTO_FUNC(P3toScRoff,.65,
+		(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 3.0) {  lift_f(true, -LIFT_V); } lift_f(true, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
+		(t.join();),(t.join(); ),
+		-35, -93,
+		-5, 5);
+
 AUTO_FUNC(P3toScR,.65,
 		(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(true) { if(timer.Get() > 1.5){ if(lift_f(true, LIFT_V)) break; } else { lift_f(false, LIFT_START_V); } } lift_f(false, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
-		(t.join();),(t.join(); intake_f(1.25*OUTTAKE_V, 0.4); P3toScR2(ALL_THE_VARS);),
+		(t.join();),(t.join(); intake_f(1.25*OUTTAKE_V, 0.4);P3toScRoff(ALL_THE_VARS);),
 		0, 140,
-		-16, 83);
+		-21, 83);
 
 AUTO_FUNC(P3toScRtoSwR3,.65,
 		(drive.set(-.3, -.3); intake_f(-3.0*OUTTAKE_V,0.4); drive.set(0, 0);std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 1.5) { if(lift_f(true, LIFT_V)) break; } lift_f(false, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
@@ -145,7 +160,7 @@ AUTO_FUNC(P3toScL,.65,
 
 
 AUTO_FUNC(P1toSwL3, .45, (std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 2.0) { lift_f(true, -LIFT_V); } lift_f(true, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
-		(t.join();),(t.join(); Wait(.2); drive.set(-.3, -.3); intake_f(-3.0*OUTTAKE_V,0.9); drive.set(.25, .25); intake_f(-3.0*OUTTAKE_V,0.4);drive.set(0, 0);
+		(t.join();),(t.join(); Wait(.2); drive.set(-.3, -.3); intake_f(-3.0*OUTTAKE_V,0.9); drive.set(-.25, .25); intake_f(-3.0*OUTTAKE_V,0.4);drive.set(0, 0);
 std::thread t2([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 1.5) { lift_f(true, LIFT_V); } lift_f(true, 0.0); SmartDashboard::PutNumber("Auto Seq",1); }); t2.join(); drive.set(-.25, -.45); Wait(.7); intake_f(OUTTAKE_V,0.8);drive.set(0, 0);),
 		-15, -15,
 		-0, -50,
@@ -162,20 +177,27 @@ AUTO_FUNC(P1toSwL,.45,
 AUTO_FUNC(P1toScL3,.65,
 		(drive.set(.3, .3); intake_f(-3.0*OUTTAKE_V,0.4); drive.set(0, 0);std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(true) { if(lift_f(true, LIFT_V)) break; } lift_f(false, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
 		(t.join();),(t.join(); intake_f(2.25*OUTTAKE_V, 0.8);),
-		20, -40,
-		-17, 35);
+		-20, -40,
+		20, 25,
+		-5, 25);
 
 AUTO_FUNC(P1toScL2,.65,
 		(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 3.0) {  lift_f(true, -LIFT_V); } lift_f(true, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
-		(t.join();),(t.join(); Wait(.2); drive.set(-.3, -.5); intake_f(-4.0*OUTTAKE_V,2.0); drive.set(0, 0); P1toScL3(ALL_THE_VARS);),
-		-20, -20,
-		-5, -10,
-		5, 30
+		(t.join();),(t.join(); Wait(.2); drive.set(-.3, -.5); intake_f(-4.0*OUTTAKE_V,2.0); drive.set(0, 0); P3toScR3(ALL_THE_VARS);),
+		20, -20,
+		0, -10,
+		-19, 30
 		);
+
+AUTO_FUNC(P1toScLoff,.65,
+		(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(timer.Get() < 3.0) {  lift_f(true, -LIFT_V); } lift_f(true, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
+		(t.join();),(t.join(); ),
+		35, -93,
+		5, 5);
 
 AUTO_FUNC(P1toScL,.65,
 		(std::thread t([&]() { frc::Timer timer; SmartDashboard::PutNumber("Auto Seq",0);timer.Start(); while(true) { if(timer.Get() > 1.5){ if(lift_f(true, LIFT_V)) break; } else { lift_f(false, LIFT_START_V); } } lift_f(false, 0.0); SmartDashboard::PutNumber("Auto Seq",1); });),
-		(t.join();),(t.join(); intake_f(OUTTAKE_V, 0.4); P1toScL2(ALL_THE_VARS);),
+		(t.join();),(t.join(); intake_f(1.25*OUTTAKE_V, 0.4);P1toScLoff(ALL_THE_VARS);),
 		0, 140,
 		21, 83);
 
@@ -237,15 +259,14 @@ void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
 				== MatchData::OwnedSide::LEFT;
 	bool leftswitch = MatchData::get_owned_side(MatchData::GameFeature::SWITCH_NEAR)
 				== MatchData::OwnedSide::LEFT;
+	std::cout << position << leftscale << leftswitch << std::endl;
 	if(position == 3){
-		if(!leftswitch && !leftscale){
-			P3toScRtoSwR(ALL_THE_VARS);
+		if(!leftscale){
+			P3toScR(ALL_THE_VARS);
 		}else if (!leftswitch) {
 			P3toSwR(ALL_THE_VARS);
-		} else if(!leftscale) {
-			P3toScR(ALL_THE_VARS);
 		} else {
-			P3toScL(ALL_THE_VARS);
+			Straight(ALL_THE_VARS);
 		}
 	} else if(position == 2){
 		if(leftswitch){
@@ -254,14 +275,12 @@ void auto_run(frc::RobotBase *robot, drivetrain::differential_drive& drive,
 			P2toSwR(ALL_THE_VARS);
 		}
 	} else if(position == 1){
-		if(leftswitch && leftscale){
-			P1toScLtoSwL(ALL_THE_VARS);
-		}else if (leftswitch) {
+		if (leftswitch) {
 			P1toSwL(ALL_THE_VARS);
-		} else if(leftscale) {
+		} else if(leftscale){
 			P1toScL(ALL_THE_VARS);
 		} else {
-			P1toScR(ALL_THE_VARS);
+			Straight(ALL_THE_VARS);
 		}
 	}
 }
